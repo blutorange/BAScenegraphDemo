@@ -47,7 +47,7 @@ public class World extends NodeUnit {
 		// Boden nach unten.
 		translate(0, -150f);
 		// Nacht werden lassen, je weiter man nach rechts geht.
-		final float darknessFactor = 1f-x/(sprite.getWidth()*40f);
+		final float darknessFactor = Math.max(0.02f,1f-x/(sprite.getWidth()*40f));
 		setColor(darknessFactor, darknessFactor*0.7f, darknessFactor*0.4f);
 		// Kollision Schmetterling-Spieler
 		if (time > 2f) {
@@ -116,13 +116,16 @@ public class World extends NodeUnit {
 		addChild(playerA, 1);
 		addChild(playerB, 0);
 
-		final Music m = Resource.music("bgm5.mp3");
+		final Music m = Resource.music("bgm3.mp3");
 		m.setLooping(true);
+		m.setVolume(0.25f);
 		m.play();
 
 		cameraTarget = playerA;
 		isTransform = new Matrix4();
 		targetTransform = new Matrix4();
+		playerA.translate(400f, 0f);
+		playerB.translate(-400f, 0f);
 	}
 
 	private void makeButterflies() {

@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -39,6 +40,15 @@ public class MyGdxGame extends ApplicationAdapter {
 		stars = Resource.particleEffect("stars.eff");
 		stars.setPosition(-800, 500);
 		setRootNode();
+		DisplayMode best = null;
+		int bestPix = 0;
+		for (final DisplayMode dm : Gdx.graphics.getDisplayModes()) {
+			if (dm.width*dm.height > bestPix) {
+				bestPix = dm.width*dm.height;
+				best = dm;
+			}
+		}
+		//if (best != null) Gdx.graphics.setFullscreenMode(best);
 	}
 
 	private void setRootNode() {

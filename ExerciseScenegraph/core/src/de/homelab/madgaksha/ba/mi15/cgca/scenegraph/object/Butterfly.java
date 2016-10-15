@@ -1,5 +1,6 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
@@ -13,7 +14,8 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeUnit;
 
 public class Butterfly extends NodeUnit {
 
-
+	private Sound flap;
+	private long flapId;
 	private ButterflyAnimationPack oldMode = null;
 	private ButterflyAnimationPack mode = ButterflyAnimationPack.FLYING;
 	private float catchTime, catchTime2, catchDy, catchY;
@@ -42,6 +44,9 @@ public class Butterfly extends NodeUnit {
 			}
 			if (catchTime > 10f) {
 				scale(0.996f);
+			}
+			if (catchTime > 15f) {
+				if (flap != null) flap.stop(flapId);
 			}
 			if (catchTime > 35f) {
 				detach();
@@ -132,6 +137,10 @@ public class Butterfly extends NodeUnit {
 		catchTime2 = 0f;
 		catchY = catchDy = 0f;
 		mode = ButterflyAnimationPack.CATCH1;
+		Resource.sound("get" + MathUtils.random(1, 6) + ".wav").play();
+		flap = Resource.sound("flap.wav");
+		flapId = flap.play();
+		flap.setLooping(flapId, true);
 	}
 
 	@Override
