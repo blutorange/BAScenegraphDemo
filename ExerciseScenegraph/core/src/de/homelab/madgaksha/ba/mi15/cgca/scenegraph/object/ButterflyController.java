@@ -13,6 +13,7 @@ public class ButterflyController implements Controller{
 	private float catchTime, catchTime2, catchDy, catchY;
 	private Sound flap;
 	private long flapId;
+	private boolean renderPriorityChanged = false;
 
 	public ButterflyController(final Butterfly butterfly) {
 		if (butterfly == null) throw new IllegalArgumentException("Butterfly cannot be null.");
@@ -42,6 +43,10 @@ public class ButterflyController implements Controller{
 				catchTime2 = 0f;
 			}
 			if (catchTime > 10f) {
+				if (!renderPriorityChanged) {
+					renderPriorityChanged  = true;
+					butterfly.setRenderPriority(-2);
+				}
 				butterfly.scale(0.996f);
 			}
 			if (catchTime > 15f) {

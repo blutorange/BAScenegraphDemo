@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
@@ -12,6 +13,7 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeUnit;
 
 public class WorldController implements Controller {
 
+	private float timePoem;
 	private final Matrix4 isTransform;
 	private final Matrix4 targetTransform;
 	private NodeUnit cameraTarget;
@@ -49,8 +51,23 @@ public class WorldController implements Controller {
 		}
 		// Spieler B im Farbspiel
 		world.playerB.setHsb(time*0.01f,0.7f,1f);
+		// Poems fliegen lassen
+		timePoem -= deltaTime;
+		if (timePoem <= 0f) {
+			timePoem = MathUtils.random(0.5f,1.5f);
+			makePoem();
+		}
 	}
 
+	private void makePoem() {
+		final Poem poem = new Poem();
+		//new Vector3().mul(cameraTarget.transform).x-MathUtils.random(1500f,500f)
+		final float dx = MathUtils.random(-world.sprite.getWidth()*world.butterflyCount,world.sprite.getWidth()*world.butterflyCount);
+		final float dy = MathUtils.random(100f,400f);
+		System.out.println(dx);
+		poem.translate(dx, dy);
+		world.addChild(poem);
+	}
 	private void processCollision(final Gnome player) {
 		final Iterator<Butterfly> it = world.butterflyList.iterator();
 		while(it.hasNext()) {

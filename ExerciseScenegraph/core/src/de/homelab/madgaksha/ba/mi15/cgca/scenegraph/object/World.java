@@ -19,6 +19,7 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeUnit;
 @WorldNode
 public class World extends NodeUnit {
 	private WorldController controller;
+	int butterflyCount;
 	Sprite sprite;
 	Gnome playerA;
 	Gnome playerB;
@@ -58,6 +59,7 @@ public class World extends NodeUnit {
 
 	@Override
 	protected void make() {
+		butterflyCount = 25;
 		makeBackground();
 		makeButterflies();
 
@@ -84,7 +86,6 @@ public class World extends NodeUnit {
 
 	private void makeButterflies() {
 		butterflyList = new ArrayList<>();
-		final int butterflyCount = 25;
 
 		float x = 0f;
 		final float rangeMin = 5f;

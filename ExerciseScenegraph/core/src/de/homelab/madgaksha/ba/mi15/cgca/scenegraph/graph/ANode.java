@@ -519,6 +519,16 @@ public abstract class ANode implements Iterable<Entry<String, PrioritizedNode>> 
 	}
 
 	/**
+	 * Setzt den Alphawert der momentanen Farbe auf den gegebenen Wert.
+	 * @param alpha Zu setztendes Alpha. 0 ist transparent, 1 opaque.
+	 * @return Diesen Knoten zum Verketten.
+	 */
+	public ANode setAlpha(final float alpha) {
+		color.a = alpha;
+		return this;
+	}
+
+	/**
 	 * Setzt die Farbe dieses Knotens.
 	 *
 	 * @param color
@@ -579,6 +589,27 @@ public abstract class ANode implements Iterable<Entry<String, PrioritizedNode>> 
 	public ANode setOrigin(final float originX, final float originY) {
 		this.originX = originX;
 		this.originY = originY;
+		return this;
+	}
+
+	public ANode setRenderPriority(final int renderPriority) {
+		if (parent != null) {
+			for (final Entry<String, PrioritizedNode> entry : parent.children.entrySet()) {
+				if (this == entry.getValue().node) {
+					parent.setRenderPriority(entry.getKey(), renderPriority);
+					break;
+				}
+			}
+		}
+		return this;
+	}
+
+	public ANode setRenderPriority(final String name, final int renderPriority) {
+		final PrioritizedNode node = children.get(name);
+		if (node != null) {
+			children.put(name, new PrioritizedNode(node.node, renderPriority));
+			dirty = true;
+		}
 		return this;
 	}
 
