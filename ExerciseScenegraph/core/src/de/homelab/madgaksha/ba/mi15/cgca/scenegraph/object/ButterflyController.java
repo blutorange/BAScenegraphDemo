@@ -31,7 +31,7 @@ public class ButterflyController implements Controller{
 		case FLYING:
 			animationMode.animate(butterfly, time, deltaTime);
 			break;
-		case CATCH1:
+		case CATCH:
 			animationMode.animate(butterfly, time, deltaTime);
 			catchTime += deltaTime;
 			catchTime2 += deltaTime;
@@ -66,7 +66,7 @@ public class ButterflyController implements Controller{
 		catchTime = 0f;
 		catchTime2 = 0f;
 		catchY = catchDy = 0f;
-		animationMode = ButterflyAnimationPack.CATCH1;
+		animationMode = ButterflyAnimationPack.CATCH;
 		Resource.sound("get" + MathUtils.random(1, 6) + ".wav").play();
 		flap = Resource.sound("flap.wav");
 		flapId = flap.play();

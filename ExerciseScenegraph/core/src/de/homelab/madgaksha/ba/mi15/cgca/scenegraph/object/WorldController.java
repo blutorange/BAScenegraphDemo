@@ -61,10 +61,8 @@ public class WorldController implements Controller {
 
 	private void makePoem() {
 		final Poem poem = new Poem();
-		//new Vector3().mul(cameraTarget.transform).x-MathUtils.random(1500f,500f)
 		final float dx = MathUtils.random(-world.sprite.getWidth()*world.butterflyCount,world.sprite.getWidth()*world.butterflyCount);
 		final float dy = MathUtils.random(100f,400f);
-		System.out.println(dx);
 		poem.translate(dx, dy);
 		world.addChild(poem);
 	}
