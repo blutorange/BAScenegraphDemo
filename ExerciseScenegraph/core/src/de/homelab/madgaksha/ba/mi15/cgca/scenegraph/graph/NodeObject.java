@@ -9,11 +9,19 @@ public class NodeObject extends NodeTransform {
 	public NodeObject(final Sprite sprite) {
 		setSprite(sprite);
 	}
+
+	/**
+	 * Setzt den Sprite (Bild), das für diesen Knoten gezeichnet werden soll.
+	 * @param sprite Zu setzendes Sprite.
+	 */
 	public void setSprite(final Sprite sprite) {
 		if (sprite == null) throw new IllegalArgumentException("Sprite cannot be null.");
 		this.sprite = sprite;
 	}
 
+	/**
+	 * @return Sprite (Bild), das für diesen Knoten gezeichnet werden soll.
+	 */
 	public Sprite getSprite() {
 		return sprite;
 	}

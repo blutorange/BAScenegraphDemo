@@ -14,8 +14,6 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 			final float rotate1 = 25f*MathUtils.sinDeg(time*220);
 			final float rotate2 = 25f*MathUtils.sinDeg(time*220+90f);
 
-			gnome.control();
-
 			gnome.getByName("head").reset().rotate(15f*MathUtils.sinDeg(time*100f)).scale(1f+0.05f*MathUtils.sinDeg(time*100f));
 
 			gnome.getByName("torso").reset().translate(0,2f*MathUtils.sinDeg(time*220));
@@ -50,8 +48,6 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 			final float scale = 1f+0.035f*MathUtils.sinDeg(time*100f);
 			final float scaleHead = 1f+0.015f*MathUtils.sinDeg(time*100f);
 
-			gnome.control();
-
 			gnome.getByName("head").reset().rotate(5f*MathUtils.sinDeg(time*100f)).scale(scaleHead).translate(0, dy);
 
 			gnome.getByName("torso").reset().scale(scale).translate(0f, dy);
@@ -83,8 +79,6 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 			final float scaleHead = 1f+0.015f*MathUtils.sinDeg(time*100f);
 			final float crouchY = 100f;
 
-			gnome.control();
-
 			gnome.getByName("tAll").translate(190f,-crouchY).rotate(-80f);
 
 			gnome.getByName("head").reset().translate(0f,-50f).rotate(5f*MathUtils.sinDeg(time*100f)).scale(scaleHead-0.3f).translate(0, dy-crouchY);
@@ -115,7 +109,6 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 		@Override
 		public void animate(final Gnome gnome, float time, final float deltaTime) {
 			time -= startTime;
-			gnome.control();
 
 			final float rotateArm = 15f*MathUtils.sinDeg(360f*time);
 
@@ -149,7 +142,6 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 			final float translate = 10f*MathUtils.sinDeg(800f*time);
 			final float scale = 1f+0.05f*MathUtils.sinDeg(749*time+90f);
 
-			gnome.control();
 			gnome.getByName("tAll").rotate(-55f);
 
 			gnome.getByName("head").reset().rotate(-20f).scale(scale).translate(0, translate);

@@ -4,29 +4,25 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 
 public abstract class NodeUnit extends NodeTransform {
 	private final String name;
-	private Controller controller;
 
+	/** Neuen Knoten mit Namen der Unterklasse. */
 	public NodeUnit() {
 		name = getClass().getSimpleName();
 		make();
 	}
+
+	/** @return Name dieses Knotens. */
 	public String name() {
 		return name;
 	}
-	public final void control() {
-		if (controller != null) controller.control(this);
-	}
-
-	public NodeUnit setController(final Controller controller) {
-		this.controller = controller;
-		return this;
-	}
-	public Controller getController() {
-		return controller;
-	}
 
 	@Override
-	protected abstract void update(final float time, final float deltaTime);
+	public final void update(final float time, final float deltaTime) {
+		if (getController() != null) getController().update(time, deltaTime);
+	}
+
+	protected abstract Controller getController();
+
 	protected abstract void make();
 
 	@Override

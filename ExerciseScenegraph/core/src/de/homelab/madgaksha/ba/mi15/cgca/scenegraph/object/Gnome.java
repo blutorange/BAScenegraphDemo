@@ -1,5 +1,6 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Resource;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeObject;
@@ -8,47 +9,8 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeUnit;
 
 public class Gnome extends NodeUnit {
-	private Animation<Gnome> mode = GnomeAnimationPack.STANDING;
 	private int score;
-
-	@Override
-	public void update(final float time, final float deltaTime) {
-		final Animation<Gnome> oldMode = mode;
-		switch (getController().getDirection()) {
-		case LEFT:
-			getByName("tAll").reset().mirrorX();
-			break;
-		case RIGHT:
-			getByName("tAll").reset();
-			break;
-		default:
-			break;
-		}
-		switch (getController().getMovementState()) {
-		case JUMPING:
-			mode = GnomeAnimationPack.JUMPING;
-			break;
-		case STANDING:
-			mode = GnomeAnimationPack.STANDING;
-			break;
-		case WALKING:
-			mode = GnomeAnimationPack.WALKING;
-			break;
-		case DASHING:
-			mode = GnomeAnimationPack.DASHING;
-			break;
-		case CROUCHING:
-			mode = GnomeAnimationPack.CROUCHING;
-			break;
-		default:
-			break;
-		}
-		if (mode != oldMode) {
-			oldMode.end(this, time, deltaTime);
-			mode.begin(this, time, deltaTime);
-		}
-		mode.animate(this, time, deltaTime);
-	}
+	private GnomeController controller;
 
 	@Override
 	protected void make() {
@@ -119,5 +81,15 @@ public class Gnome extends NodeUnit {
 	public void incrementScore() {
 		score++;
 		((NodeText)getByName("score")).setString(Integer.toString(score, 10));
+	}
+
+	public Gnome setController(final GnomeController controller) {
+		this.controller = controller;
+		return this;
+	}
+
+	@Override
+	protected Controller getController() {
+		return controller;
 	}
 }

@@ -1,16 +1,12 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector3;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.WorldNode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
@@ -22,52 +18,11 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeUnit;
 
 @WorldNode
 public class World extends NodeUnit {
-	private Sprite sprite;
-	private Matrix4 isTransform;
-	private Matrix4 targetTransform;
-	private Gnome playerA;
-	private Gnome playerB;
-	private NodeUnit cameraTarget;
-	private List<Butterfly> butterflyList;
-
-	@Override
-	public void update(final float time, final float deltaTime) {
-		// Kamera auf Spieler 1/2 setzen.
-		if (Gdx.input.isKeyJustPressed(Keys.NUM_1)) cameraTarget = playerA;
-		else if (Gdx.input.isKeyJustPressed(Keys.NUM_2)) cameraTarget = playerB;
-		// Kamera langsam mit Spieler mitlaufen lassen.
-		targetTransform.set(cameraTarget.getTransform()).inv();
-		isTransform.lerp(targetTransform, 0.035f);
-		getTransform().set(isTransform);
-		// Hintergrund periodisch verschieben, sodass er endlos erscheint.
-		final float x = -new Vector3().mul(isTransform).x;
-		final float dx = sprite.getWidth()*((int)(x / sprite.getWidth()));
-		getByName("tBackground").reset().translate(dx, 70f);
-		// Boden nach unten.
-		translate(0, -150f);
-		// Nacht werden lassen, je weiter man nach rechts geht.
-		final float darknessFactor = Math.max(0.02f,1f-x/(sprite.getWidth()*40f));
-		setColor(darknessFactor, darknessFactor*0.7f, darknessFactor*0.4f);
-		// Kollision Schmetterling-Spieler
-		if (time > 2f) {
-			processCollision(playerA);
-			processCollision(playerB);
-		}
-		// Spieler B im Farbspiel
-		playerB.setHsb(time*0.01f,0.7f,1f);
-	}
-
-	private void processCollision(final Gnome player) {
-		final Iterator<Butterfly> it = butterflyList.iterator();
-		while(it.hasNext()) {
-			final Butterfly butterfly = it.next();
-			if (butterfly.collides(player)) {
-				it.remove();
-				player.incrementScore();
-				butterfly.caught();
-			}
-		}
-	}
+	private WorldController controller;
+	Sprite sprite;
+	Gnome playerA;
+	Gnome playerB;
+	List<Butterfly> butterflyList;
 
 	private void makeBackground() {
 		sprite = Resource.sprite("background.jpg");
@@ -109,9 +64,9 @@ public class World extends NodeUnit {
 		playerA = new Gnome();
 		playerB = new Gnome();
 
-		playerA.setController(new Controller.Builder().speed(3f, 18f).gravity(0.3f).build());
-		playerB.setController(new Controller.Builder().left(Keys.A).right(Keys.D).up(Keys.W).down(Keys.S)
-				.speed(3f, 18f).gravity(0.3f).jump(Keys.Q).modifier(Keys.SHIFT_LEFT).crouch(Keys.X).build());
+		playerA.setController(new GnomeController.Builder().speed(3f, 18f).gravity(0.3f).build(playerA));
+		playerB.setController(new GnomeController.Builder().left(Keys.A).right(Keys.D).up(Keys.W).down(Keys.S)
+				.speed(3f, 18f).gravity(0.3f).jump(Keys.Q).modifier(Keys.SHIFT_LEFT).crouch(Keys.X).build(playerB));
 
 		addChild(playerA, 1);
 		addChild(playerB, 0);
@@ -121,11 +76,10 @@ public class World extends NodeUnit {
 		m.setVolume(0.25f);
 		m.play();
 
-		cameraTarget = playerA;
-		isTransform = new Matrix4();
-		targetTransform = new Matrix4();
 		playerA.translate(400f, 0f);
 		playerB.translate(-400f, 0f);
+
+		controller = new WorldController(this);
 	}
 
 	private void makeButterflies() {
@@ -142,11 +96,11 @@ public class World extends NodeUnit {
 		for (int i = 0; i<butterflyCount; ++i, x -= MathUtils.random(rangeMin*400f, rangeMax*400f)) {
 			makeButterfly(x);
 		}
-
 	}
 
 	private void makeButterfly(final float x) {
 		final Butterfly butterfly = new Butterfly();
+		butterfly.setController(new ButterflyController(butterfly));
 		butterfly.translate(x, 800f);
 		butterflyList.add(butterfly);
 		addChild(butterfly, 2);
@@ -170,5 +124,10 @@ public class World extends NodeUnit {
 	@Override
 	public float getBottomHeight() {
 		return 0f;
+	}
+
+	@Override
+	protected Controller getController() {
+		return controller;
 	}
 }
