@@ -283,14 +283,17 @@ public abstract class ANode implements Iterable<Entry<String, PrioritizedNode>> 
 	}
 
 	public ANode randomHue() {
-		return randomHue(1f,1f);
+		return randomHue(MathUtils.random(0.5f,1f),1f);
 	}
 
 	public ANode randomHue(final float saturation, final float brightness) {
-		final int c = java.awt.Color.HSBtoRGB(MathUtils.random(0f,360f), saturation, brightness);
-		setColor((c&0xFF0000)>>16, (c&0x00FF00)>>8, c&0x0000FF);
-		return this;
+		return setHsb(MathUtils.random(0f,360f), saturation, brightness);
 	}
 
+	public ANode setHsb(final float hue, final float saturation, final float brightness) {
+		final int c = java.awt.Color.HSBtoRGB(hue, saturation, brightness);
+		setColor(((c&0xFF0000)>>16)/255f, ((c&0x00FF00)>>8)/255f, (c&0x0000FF)/255f);
+		return this;
+	}
 
 }

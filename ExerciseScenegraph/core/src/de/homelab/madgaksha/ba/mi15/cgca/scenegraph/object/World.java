@@ -7,7 +7,6 @@ import java.util.List;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
@@ -54,6 +53,8 @@ public class World extends NodeUnit {
 			processCollision(playerA);
 			processCollision(playerB);
 		}
+		// Spieler B im Farbspiel
+		playerB.setHsb(time*0.01f,0.7f,1f);
 	}
 
 	private void processCollision(final Gnome player) {
@@ -111,7 +112,6 @@ public class World extends NodeUnit {
 		playerA.setController(new Controller.Builder().speed(3f, 18f).gravity(0.3f).build());
 		playerB.setController(new Controller.Builder().left(Keys.A).right(Keys.D).up(Keys.W).down(Keys.S)
 				.speed(3f, 18f).gravity(0.3f).jump(Keys.Q).modifier(Keys.SHIFT_LEFT).crouch(Keys.X).build());
-		playerB.setColor(new Color(1f, 0.5f, 0.5f, 1f));
 
 		addChild(playerA, 1);
 		addChild(playerB, 0);

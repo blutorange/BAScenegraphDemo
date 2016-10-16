@@ -68,14 +68,13 @@ public class Gnome extends NodeUnit {
 		final ANode tLeftLeg = new NodeTransform(-18, -70);
 		final ANode tRightLeg = new NodeTransform(30, -70);
 
-
 		addChild("tAll", tAll);
 
 		tAll.addChild("torso", torso);
 
 		tAll.addChild("tHead", tHead, 1);
 		tHead.addChild("head", head);
-		tHead.addChild("tScore", tScore, 2);
+		head.addChild("tScore", tScore, 2);
 		tScore.addChild("score", score);
 
 		tAll.addChild("tLeftLeg", tLeftLeg, 1);

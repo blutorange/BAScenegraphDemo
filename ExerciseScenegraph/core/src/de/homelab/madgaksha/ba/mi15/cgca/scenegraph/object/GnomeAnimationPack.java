@@ -181,7 +181,6 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 			gnome.getByName("rightLeg").setSmoothingFactor(oldSmoothing2);
 			Resource.sound("steps.wav").stop();
 		}
-
 	}
 	;
 
