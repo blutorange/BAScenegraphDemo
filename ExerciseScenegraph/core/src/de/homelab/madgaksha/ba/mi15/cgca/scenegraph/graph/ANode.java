@@ -326,6 +326,10 @@ public abstract class ANode implements Iterable<Entry<String, PrioritizedNode>> 
 	public float getOriginY() {
 		return originY;
 	}
+        
+        public ANode getParent() {
+            return parent;
+        }
 
 	/**
 	 * @return Abstand vom Ursprung dieses Knotens zur rechten Kante. Nur nötig
@@ -574,6 +578,17 @@ public abstract class ANode implements Iterable<Entry<String, PrioritizedNode>> 
 		return this;
 	}
 
+        /**
+         * Setzt die geglättete Transformationsmatrix. Sollte nur initial
+         * verwendet werden, um den Startpunkt festzulegen.
+         * @return Diesen Knoten zum Verketten.
+         * @param transform Zu setztende Transformation.
+         */
+        public ANode setSmoothTransform(Matrix4 transform) {
+            this.smoothTransform.set(transform);
+            return this;
+        }
+        
 	/**
 	 * Nur relevant, wenn dieser Knoten gezeichnet wird. Setzt den Punkt des
 	 * Sprites, der am Ursprungspunkt (0,0) dieses Knotens sein soll. (0,0)

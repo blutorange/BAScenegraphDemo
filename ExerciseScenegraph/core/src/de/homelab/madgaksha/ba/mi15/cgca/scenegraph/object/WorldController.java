@@ -17,8 +17,8 @@ public class WorldController implements Controller {
 	private final Matrix4 isTransform;
 	private final Matrix4 targetTransform;
 	private NodeUnit cameraTarget;
-
 	private final World world;
+        
 	public WorldController(final World world) {
 		if (world == null) throw new IllegalArgumentException("World cannot be null.");
 		this.world = world;
@@ -54,14 +54,14 @@ public class WorldController implements Controller {
 		// Poems fliegen lassen
 		timePoem -= deltaTime;
 		if (timePoem <= 0f) {
-			timePoem = MathUtils.random(0.5f,1.5f);
+			timePoem = MathUtils.random(0.5f,1.0f);
 			makePoem();
 		}
 	}
 
 	private void makePoem() {
 		final Poem poem = new Poem();
-		final float dx = MathUtils.random(-world.sprite.getWidth()*world.butterflyCount,world.sprite.getWidth()*world.butterflyCount);
+		final float dx = MathUtils.random(world.butterflyLeft, world.butterflyRight);
 		final float dy = MathUtils.random(100f,400f);
 		poem.translate(dx, dy);
 		world.addChild(poem);
@@ -76,5 +76,9 @@ public class WorldController implements Controller {
 				butterfly.caught();
 			}
 		}
+                if (world.butterflyList.size() < 10) {
+                    for (int i = world.butterflyCount; i-->0;)
+                        world.addRandomButterfly();
+                }
 	}
 }
