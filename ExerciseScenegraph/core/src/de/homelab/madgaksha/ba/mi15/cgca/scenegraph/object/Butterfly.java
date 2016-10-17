@@ -2,7 +2,6 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
@@ -72,22 +71,22 @@ public class Butterfly extends NodeUnit {
 
 	@Override
 	public float getLeftWidth() {
-		return 270f;
+		return 260f;
 	}
 
 	@Override
 	public float getRightWidth() {
-		return 270f;
+		return 260f;
 	}
 
 	@Override
 	public float getTopHeight() {
-		return 270f;
+		return 260f;
 	}
 
 	@Override
 	public float getBottomHeight() {
-		return 270f;
+		return 260f;
 	}
 
 	public Butterfly setController(final ButterflyController controller) {

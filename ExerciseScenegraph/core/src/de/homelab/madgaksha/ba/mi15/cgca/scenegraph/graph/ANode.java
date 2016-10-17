@@ -197,17 +197,17 @@ public abstract class ANode implements Iterable<Entry<String, PrioritizedNode>> 
 	 * {@link #getTopHeight()} etc. zurückgeliefert werden. Diese sind relativ
 	 * zum Koordinatenursprung im Koordinatensystem dieses Knotens.
 	 *
-	 * @param node
+	 * @param other
 	 *            Knoten, mit dem Kollision geprüft werden soll.
 	 * @return Ob die Knoten kollidieren.
 	 */
-	public boolean collides(final ANode node) {
-		final Vector3 thiz = this.inWorldCoordinates();
-		final Vector3 other = node.inWorldCoordinates();
-		return rangeOverlap(thiz.x - this.getLeftWidth(), thiz.x + this.getRightWidth(), other.x - node.getLeftWidth(),
-				other.x + node.getRightWidth())
-				&& rangeOverlap(thiz.y - this.getBottomHeight(), thiz.y + this.getTopHeight(),
-						other.x - node.getBottomHeight(), other.x + node.getTopHeight());
+	public boolean collides(final ANode other) {
+		final Vector3 thisPos = this.inWorldCoordinates();
+		final Vector3 otherPos = other.inWorldCoordinates();
+		return rangeOverlap(thisPos.x - this.getLeftWidth(), thisPos.x + this.getRightWidth(), otherPos.x - other.getLeftWidth(),
+				otherPos.x + other.getRightWidth())
+				&& rangeOverlap(thisPos.y - this.getBottomHeight(), thisPos.y + this.getTopHeight(),
+						otherPos.y - other.getBottomHeight(), otherPos.y + other.getTopHeight());
 	}
 
 	/**
@@ -326,10 +326,10 @@ public abstract class ANode implements Iterable<Entry<String, PrioritizedNode>> 
 	public float getOriginY() {
 		return originY;
 	}
-        
-        public ANode getParent() {
-            return parent;
-        }
+
+	public ANode getParent() {
+		return parent;
+	}
 
 	/**
 	 * @return Abstand vom Ursprung dieses Knotens zur rechten Kante. Nur nötig
@@ -400,6 +400,16 @@ public abstract class ANode implements Iterable<Entry<String, PrioritizedNode>> 
 	 */
 	public ANode mirrorX() {
 		getTransform().scale(-1f, 1f, 1f);
+		return this;
+	}
+
+	public ANode printDebug() {
+		return printDebug("");
+	}
+
+	private ANode printDebug(final String prefix) {
+		System.out.println(prefix + this);
+		for (final PrioritizedNode child : children.values()) child.node.printDebug(prefix + " ");
 		return this;
 	}
 
@@ -578,17 +588,17 @@ public abstract class ANode implements Iterable<Entry<String, PrioritizedNode>> 
 		return this;
 	}
 
-        /**
-         * Setzt die geglättete Transformationsmatrix. Sollte nur initial
-         * verwendet werden, um den Startpunkt festzulegen.
-         * @return Diesen Knoten zum Verketten.
-         * @param transform Zu setztende Transformation.
-         */
-        public ANode setSmoothTransform(Matrix4 transform) {
-            this.smoothTransform.set(transform);
-            return this;
-        }
-        
+	/**
+	 * Setzt die geglättete Transformationsmatrix. Sollte nur initial
+	 * verwendet werden, um den Startpunkt festzulegen.
+	 * @return Diesen Knoten zum Verketten.
+	 * @param transform Zu setztende Transformation.
+	 */
+	public ANode setSmoothTransform(final Matrix4 transform) {
+		this.smoothTransform.set(transform);
+		return this;
+	}
+
 	/**
 	 * Nur relevant, wenn dieser Knoten gezeichnet wird. Setzt den Punkt des
 	 * Sprites, der am Ursprungspunkt (0,0) dieses Knotens sein soll. (0,0)
@@ -670,6 +680,14 @@ public abstract class ANode implements Iterable<Entry<String, PrioritizedNode>> 
 		if (dirty)
 			rebuildSortedChildren();
 		return sortedChildren.iterator();
+	}
+
+	/**
+	 * @return Dieser Knoten Wandelt als lesbarer Text.
+	 */
+	@Override
+	public String toString() {
+		return getClass().getSimpleName();
 	}
 
 	/**

@@ -24,8 +24,8 @@ public class World extends NodeUnit {
 	Gnome playerA;
 	Gnome playerB;
 	List<Butterfly> butterflyList;
-        float butterflyRight;
-        float butterflyLeft;
+	float butterflyRight;
+	float butterflyLeft;
 
 	private void makeBackground() {
 		sprite = Resource.sprite("background.jpg");
@@ -95,12 +95,12 @@ public class World extends NodeUnit {
 		for (int i = 0; i < butterflyCount; ++i, x += MathUtils.random(rangeMin*400f, rangeMax*400f)) {
 			makeButterfly(x);
 		}
-                butterflyRight = x;
+		butterflyRight = x;
 		x = -MathUtils.random(rangeMin*400f, rangeMax*400f);
 		for (int i = 0; i<butterflyCount; ++i, x -= MathUtils.random(rangeMin*400f, rangeMax*400f)) {
 			makeButterfly(x);
 		}
-                butterflyLeft = x;
+		butterflyLeft = x;
 	}
 
 	private Butterfly makeButterfly(final float x) {
@@ -109,7 +109,7 @@ public class World extends NodeUnit {
 		butterfly.translate(x, 800f);
 		butterflyList.add(butterfly);
 		addChild(butterfly, 2);
-                return butterfly;
+		return butterfly;
 	}
 
 	@Override
@@ -137,13 +137,13 @@ public class World extends NodeUnit {
 		return controller;
 	}
 
-    void addRandomButterfly() {
-        final float x = MathUtils.random(butterflyLeft, butterflyRight);
-        System.out.println(butterflyLeft + " " + butterflyRight + " " + x);
-        final Butterfly bf = makeButterfly(x);
-        bf.translate(0f, 1600f);
-        bf.setSmoothTransform(bf.getTransform());
-        bf.translate(0f, -1600f);
-        bf.setSmoothingFactor(0.01f);
-    }
+	void addRandomButterfly() {
+		final float x = MathUtils.random(butterflyLeft, butterflyRight);
+		System.out.println(butterflyLeft + " " + butterflyRight + " " + x);
+		final Butterfly bf = makeButterfly(x);
+		bf.translate(0f, 1600f);
+		bf.setSmoothTransform(bf.getTransform());
+		bf.translate(0f, -1600f);
+		bf.setSmoothingFactor(0.01f);
+	}
 }

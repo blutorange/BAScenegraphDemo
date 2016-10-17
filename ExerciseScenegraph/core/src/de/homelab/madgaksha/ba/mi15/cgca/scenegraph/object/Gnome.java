@@ -66,12 +66,12 @@ public class Gnome extends NodeUnit {
 
 	@Override
 	public float getTopHeight() {
-		return 100f;
+		return 260f;
 	}
 
 	@Override
 	public float getBottomHeight() {
-		return 100f;
+		return 260f;
 	}
 
 	public int getScore() {
