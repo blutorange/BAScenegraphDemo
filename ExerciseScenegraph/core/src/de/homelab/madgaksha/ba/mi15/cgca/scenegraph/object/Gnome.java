@@ -108,7 +108,7 @@ public class Gnome extends NodeController {
 		mScore.addChild(score);
 		mTorso.addChild(torso);
 
-		tAll.setSmoothingFactorForThisAndChildren(0.05f);
+		setSmoothingFactorForThisAndChildren(0.05f);
 	}
 
 	@Override

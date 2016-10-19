@@ -83,6 +83,8 @@ public class World extends NodeController {
 		makePlayers();
 		makeButterflies();
 		makeMusic();
+		//TEST
+		addChild(new Chain(ac()).translate(0, 400f), 10);
 
 		controller = new WorldController(this);
 	}
