@@ -1,59 +1,71 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.GraphicsContext;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 
 public abstract class ANode implements Iterable<PrioritizedNode> {
 	public static enum Type {
-		TRANSFORM, TEXT, SPRITE, COLOR;
+		/**
+		 * A node with a color that cascades to all its children. For example, this
+		 * may be used to change the color of an entire scene, or actor.
+		 */
+		COLOR,
+		/**
+		 * A drawable object that draws a 2D image.
+		 */
+		SPRITE,
+		/**
+		 * A drawable object that draws text.
+		 */
+		TEXT,
+		/**
+		 * A node with a transform that cascades to all its children. For example,
+		 * this may be used to rotate an entire scene, or translate an actor.
+		 */
+		TRANSFORM,
+		/**
+		 * A basic node with children.
+		 */
+		GROUP,
+		/**
+		 * A node with only a single child that may change dynamically depending on some condition.
+		 */
+		FILTER;
 	}
 
-	private final static AtomicLong idProvider = new AtomicLong();
 	protected final static Matrix4 IDENTITY = new Matrix4();
+	private final static AtomicLong idProvider = new AtomicLong();
 
-	public final Type type;
 	private final long id;
+	public final Type type;
 	protected ANode parent = null;
-	private final List<PrioritizedNode> children = new ArrayList<>();
-	private boolean dirty = true;
 
 	public ANode(final Type type) {
 		this.type = type;
 		id = idProvider.incrementAndGet();
 	}
 
-	public final ANode addChild(final ANode node) {
-		return addChild(node, 0);
-	}
+	public abstract <R, T, E extends Throwable> R accept(INodeVisitor<R, T, E> visitor, T data) throws E;
 
-	public final ANode addChild(final ANode node, final int traversalPriority) {
-		return addChild(node, traversalPriority, children.size());
-	}
+	/**
+	 * Some common action a node needs to do on each update. Should not recurse.
+	 * Called in the correct traversal order.
+	 */
+	public abstract void updateAction(ApplicationContext context);
 
-	public final ANode addChild(final ANode node, final int traversalPriority, final int position) {
-		GraphicsContext.getInstance().getNodeActionQueue().addAction(new NodeActionAddChild(this, node, traversalPriority, position));
-		return this;
-	}
-
-
-	public void addChildInternal(final ANode node, final int traversalPriority, final int position) {
-		children.add(position, new PrioritizedNode(node, traversalPriority));
-		node.parent = this;
-		dirty = true;
-	}
-
-
-	public abstract <R,T,E extends Throwable> R accept(INodeVisitor<R, T, E>  visitor, T data) throws E;
+	/**
+	 * Some common action a node needs to each time it is rendered. Should not
+	 * recurse. Called in the correct traversal order.
+	 */
+	public abstract void renderAction(ApplicationContext context);
 
 	/**
 	 * Prüft, ob dieser Knoten mit einem anderen in Berührung steht. Dabei
@@ -65,7 +77,7 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 	 *            Knoten, mit dem Kollision geprüft werden soll.
 	 * @return Ob die Knoten kollidieren.
 	 */
-	public boolean collides(final ANode other) {
+	public final boolean collides(final ANode other) {
 		final Vector3 thisPos = this.inWorldCoordinates();
 		final Vector3 otherPos = other.inWorldCoordinates();
 		return rangeOverlap(thisPos.x - this.getLeftWidth(), thisPos.x + this.getRightWidth(), otherPos.x - other.getLeftWidth(),
@@ -74,47 +86,52 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 						otherPos.y - other.getBottomHeight(), otherPos.y + other.getTopHeight());
 	}
 
-	public float getLeftWidth() {
-		return parent != null ? parent.getLeftWidth() : 0f;
+	public final ANode detach() {
+		final INodeIterator it = iteratorForParentAtThisPosition();
+		if (it != null)
+			it.remove();
+		return this;
 	}
-	public float getRightWidth() {
-		return parent != null ? parent.getRightWidth() : 0f;
+
+	public final ANode detachImmediately() {
+		final INodeIterator it = iteratorForParentAtThisPosition();
+		if (it != null)
+			it.removeImmediately();
+		return this;
 	}
-	public float getTopHeight() {
-		return parent != null ? parent.getTopHeight() : 0f;
-	}
+
 	public float getBottomHeight() {
 		return parent != null ? parent.getBottomHeight() : 0f;
-	}
-	public Matrix4 getCascadedTransform() {
-		return (parent != null) ? parent.getCascadedTransform() : new Matrix4().idt();
 	}
 	public Color getCascadedColor() {
 		return (parent != null) ? parent.getCascadedColor() : Color.WHITE;
 	}
+	public Matrix4 getCascadedTransform() {
+		return (parent != null) ? parent.getCascadedTransform() : new Matrix4().idt();
+	}
 	public Color getColor() {
 		return parent != null ? parent.getColor() : Color.WHITE;
 	}
-	public Matrix4 getTransform() {
-		return (parent != null) ? parent.getTransform() : new Matrix4().idt();
+	public final long getId() {
+		return id;
 	}
-
-	public final ANode detach() {
-		if (parent != null) {
-			int i = 0;
-			for (final PrioritizedNode child : parent.children) {
-				if (this == child.node) {
-					parent.removeChild(i);
-					break;
-				}
-				++i;
-			}
-		}
-		return this;
+	public float getLeftWidth() {
+		return parent != null ? parent.getLeftWidth() : 0f;
 	}
-
 	public final ANode getParent() {
 		return parent;
+	}
+
+	public float getRightWidth() {
+		return parent != null ? parent.getRightWidth() : 0f;
+	}
+
+	public float getTopHeight() {
+		return parent != null ? parent.getTopHeight() : 0f;
+	}
+
+	public Matrix4 getTransform() {
+		return (parent != null) ? parent.getTransform() : new Matrix4().idt();
 	}
 
 	public final Vector3 inWorldCoordinates() {
@@ -125,10 +142,24 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 		return new Vector3(x, y, 0f).mul(getCascadedTransform());
 	}
 
+	/**
+	 * @return An iterator that supports {@link Iterator#remove()()},
+	 *         {@link Iterator#hasNext()}, and {@link Iterator#next()}.
+	 */
 	@Override
-	public final Iterator<PrioritizedNode> iterator() {
-		if (dirty) rebuildSortedChildren();
-		return children.iterator();
+	public INodeIterator iterator() {
+		return IteratorNodeEmpty.INSTANCE;
+	}
+
+	protected final INodeIterator iteratorForParentAtThisPosition() {
+		if (parent == null) return null;
+		final INodeIterator it = iterator();
+		while (it.hasNext()) {
+			if (this == it.next().node) {
+				return it;
+			}
+		}
+		return null;
 	}
 
 	public final ANode mirrorX() {
@@ -156,22 +187,6 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 		return range1From <= range2To && range2From <= range1To;
 	}
 
-	private void rebuildSortedChildren() {
-		Collections.sort(children);
-		dirty = false;
-	}
-
-	public final ANode removeChild(final int position) {
-		GraphicsContext.getInstance().getNodeActionQueue().addAction(new NodeActionRemoveChild(this, position));
-		return this;
-	}
-
-	public final void removeChildInternal(final int index) {
-		if (index >= children.size()) return;
-		children.get(index).node.parent = null;
-		children.remove(index);
-	}
-
 	public final ANode reset() {
 		getTransform().idt();
 		return this;
@@ -193,33 +208,12 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 
 	/**
 	 * @param renderPriority Setzt die Priorität dieses Knotens.
-	 * @return
+	 * @return Diesen Knoten zum Verketten.
 	 */
 	public final ANode setTraversalPriority(final int traversalPriority) {
-		final int childIndex = findIndexOfParent();
-		if (childIndex >= 0)
-			parent.setTraversalPriority(childIndex, traversalPriority);
-		return this;
-	}
-
-	private int findIndexOfParent() {
-		if (parent == null) return -1;
-		int index = -1;
-		for (final PrioritizedNode child : parent.children) {
-			if (this == child.node) {
-				return index;
-			}
-			++index;
-		}
-		return -1;
-	}
-
-	public final ANode setTraversalPriority(final int childIndex, final int traversalPriority) {
-		final PrioritizedNode node = children.get(childIndex);
-		if (node != null) {
-			children.set(childIndex, new PrioritizedNode(node.node, traversalPriority));
-			dirty = true;
-		}
+		final INodeIterator it = iteratorForParentAtThisPosition();
+		if (it != null)
+			it.setTraversalPriority(traversalPriority);
 		return this;
 	}
 
@@ -233,40 +227,27 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 		return this;
 	}
 
-	public long getId() {
-		return id;
-	}
+	private static enum IteratorNodeEmpty implements INodeIterator {
+		INSTANCE;
 
-	/** Some common action a node needs to do on each update. Should not recurse. Called in the correct traversal order. */
-	public abstract void updateAction(GraphicsContext context);
-	public abstract void renderAction(GraphicsContext context);
+		@Override
+		public void setTraversalPriority(final int traversalPriority) {
+			throw new IllegalStateException("Empty iterator does not have children.");
+		}
 
-	public static class NodeActionAddChild implements INodeAction {
-		private final ANode parent;
-		private final ANode child;
-		private final int traversalPriority;
-		private final int position;
-		public NodeActionAddChild(final ANode parent, final ANode child, final int traversalPriority, final int position) {
-			this.parent = parent;
-			this.child = child;
-			this.traversalPriority = traversalPriority;
-			this.position = position;
-		}
 		@Override
-		public void perform() {
-			parent.addChildInternal(child, traversalPriority, position);
+		public boolean hasNext() {
+			return false;
 		}
-	}
-	public static class NodeActionRemoveChild implements INodeAction {
-		private final ANode parent;
-		private final int position;
-		public NodeActionRemoveChild(final ANode parent, final int position) {
-			this.parent = parent;
-			this.position = position;
-		}
+
 		@Override
-		public void perform() {
-			parent.removeChildInternal(position);
+		public PrioritizedNode next() {
+			throw new NoSuchElementException("Empty iterator does not have children.");
+		}
+
+		@Override
+		public void removeImmediately() {
+			throw new NoSuchElementException("Empty iterator does not have children.");
 		}
 	}
 }

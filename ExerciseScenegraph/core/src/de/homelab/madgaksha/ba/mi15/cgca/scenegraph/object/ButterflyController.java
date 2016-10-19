@@ -4,7 +4,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Resource;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 
 public class ButterflyController implements Controller{
 	private final Butterfly butterfly;
@@ -67,8 +67,8 @@ public class ButterflyController implements Controller{
 		catchTime2 = 0f;
 		catchY = catchDy = 0f;
 		animationMode = ButterflyAnimationPack.CATCH;
-		Resource.sound("get" + MathUtils.random(1, 6) + ".wav").play();
-		flap = Resource.sound("flap.wav");
+		ApplicationContext.getInstance().getResourceManager().sound("get" + MathUtils.random(1, 6) + ".wav").play();
+		flap = ApplicationContext.getInstance().getResourceManager().sound("flap.wav");
 		flapId = flap.play();
 		flap.setLooping(flapId, true);
 	}

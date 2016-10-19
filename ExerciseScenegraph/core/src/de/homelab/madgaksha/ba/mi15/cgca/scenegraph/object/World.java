@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Resource;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeColor;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeSprite;
@@ -39,7 +39,7 @@ public class World extends NodeController {
 	NodeSprite background5;
 
 	private void makeBackground() {
-		sprite = Resource.sprite("background.jpg");
+		sprite = ApplicationContext.getInstance().getResourceManager().sprite("background.jpg");
 
 		tBackground = new NodeTransform(0, 0f);
 		tBackground1 = new NodeTransform(0, 300f);
@@ -84,7 +84,7 @@ public class World extends NodeController {
 	}
 
 	private void makeMusic() {
-		final Music m = Resource.music("bgm3.mp3");
+		final Music m = ApplicationContext.getInstance().getResourceManager().music("bgm3.mp3");
 		m.setLooping(true);
 		m.setVolume(0.25f);
 		m.play();

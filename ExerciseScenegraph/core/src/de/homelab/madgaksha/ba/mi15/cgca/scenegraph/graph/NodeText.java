@@ -3,7 +3,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.GraphicsContext;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 
 public class NodeText extends ANodeDrawable {
@@ -54,11 +54,11 @@ public class NodeText extends ANodeDrawable {
 	}
 
 	@Override
-	public void updateAction(final GraphicsContext context) {
+	public void updateAction(final ApplicationContext context) {
 	}
 
 	@Override
-	public void renderAction(final GraphicsContext context) {
+	public void renderAction(final ApplicationContext context) {
 		applyBatch(context);
 		font.setColor(getCascadedColor());
 		font.draw(context.getBatch(), string, 0, 0, 999999, Align.center, false);

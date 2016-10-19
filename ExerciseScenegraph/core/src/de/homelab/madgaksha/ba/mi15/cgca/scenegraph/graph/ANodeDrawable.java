@@ -3,7 +3,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.GraphicsContext;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 
 public abstract class ANodeDrawable extends ANode implements IColoredNode, IOriginedNode {
 	private final Vector2 origin = new Vector2(0.5f, 0.5f);
@@ -30,11 +30,11 @@ public abstract class ANodeDrawable extends ANode implements IColoredNode, IOrig
 	}
 
 	@Override
-	public void updateAction(final GraphicsContext context) {
+	public void updateAction(final ApplicationContext context) {
 		cascadeColor();
 	}
 
-	protected void applyBatch(final GraphicsContext context) {
+	protected void applyBatch(final ApplicationContext context) {
 		context.getBatch().setTransformMatrix(getCascadedTransform());
 	}
 }

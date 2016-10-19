@@ -3,8 +3,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 import com.badlogic.gdx.math.Vector3;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.GraphicsContext;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Resource;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeDrawable;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeSprite;
@@ -45,16 +44,16 @@ public class Butterfly extends NodeController {
 
 	@Override
 	protected void make() {
-		body = new NodeSprite(Resource.sprite("butterfly/bodyG.png"));
-		head = new NodeSprite(Resource.sprite("butterfly/headG.png"));
-		mouth = new NodeSprite(Resource.sprite("butterfly/mouthG.png"));
-		antennae = new NodeSprite(Resource.sprite("butterfly/antennaeG.png"));
-		eyeLeft = new NodeSprite(Resource.sprite("butterfly/eyeleftG.png"));
-		eyeRight = new NodeSprite(Resource.sprite("butterfly/eyerightG.png"));
-		wingTopLeft = new NodeSprite(Resource.sprite("butterfly/wingtopleftG.png"));
-		wingTopRight = new NodeSprite(Resource.sprite("butterfly/wingtoprightG.png"));
-		wingBottomLeft = new NodeSprite(Resource.sprite("butterfly/wingbottomleftG.png"));
-		wingBottomRight = new NodeSprite(Resource.sprite("butterfly/wingbottomrightG.png"));
+		body = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/bodyG.png"));
+		head = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/headG.png"));
+		mouth = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/mouthG.png"));
+		antennae = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/antennaeG.png"));
+		eyeLeft = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/eyeleftG.png"));
+		eyeRight = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/eyerightG.png"));
+		wingTopLeft = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/wingtopleftG.png"));
+		wingTopRight = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/wingtoprightG.png"));
+		wingBottomLeft = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/wingbottomleftG.png"));
+		wingBottomRight = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/wingbottomrightG.png"));
 
 		antennae.setOrigin(0.49f, 0.05f);
 		antennae.randomHue();
@@ -163,7 +162,7 @@ public class Butterfly extends NodeController {
 	}
 
 	@Override
-	public void renderAction(final GraphicsContext context) {
+	public void renderAction(final ApplicationContext context) {
 		final Vector3 v = inWorldCoordinates();
 		if (v.x>=-2000f && v.x<=2000f) {
 			super.renderAction(context);

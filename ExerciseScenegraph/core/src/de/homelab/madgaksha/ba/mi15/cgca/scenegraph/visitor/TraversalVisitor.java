@@ -2,6 +2,8 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeColor;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeFilter;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeGroup;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeSprite;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeText;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
@@ -34,6 +36,18 @@ public class TraversalVisitor<E extends Throwable> implements INodeVisitor <Void
 
 	@Override
 	public Void visit(final NodeColor node, final ICommonNodeAction<E> data) throws E {
+		data.visit(node);
+		return traverse(node, data);
+	}
+
+	@Override
+	public Void visit(final NodeGroup node, final ICommonNodeAction<E> data) throws E {
+		data.visit(node);
+		return traverse(node, data);
+	}
+
+	@Override
+	public Void visit(final NodeFilter node, final ICommonNodeAction<E> data) throws E {
 		data.visit(node);
 		return traverse(node, data);
 	}

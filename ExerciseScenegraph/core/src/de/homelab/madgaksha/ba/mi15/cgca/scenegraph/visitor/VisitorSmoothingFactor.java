@@ -2,6 +2,8 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeColor;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeFilter;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeGroup;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeSprite;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeText;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
@@ -33,6 +35,16 @@ public enum VisitorSmoothingFactor implements INodeVisitor<Void, Float, RuntimeE
 
 	@Override
 	public Void visit(final NodeColor node, final Float smoothingFactor) throws RuntimeException {
+		return visitChildren(node, smoothingFactor);
+	}
+
+	@Override
+	public Void visit(final NodeGroup node, final Float smoothingFactor) throws RuntimeException {
+		return visitChildren(node, smoothingFactor);
+	}
+
+	@Override
+	public Void visit(final NodeFilter node, final Float smoothingFactor) throws RuntimeException {
 		return visitChildren(node, smoothingFactor);
 	}
 }

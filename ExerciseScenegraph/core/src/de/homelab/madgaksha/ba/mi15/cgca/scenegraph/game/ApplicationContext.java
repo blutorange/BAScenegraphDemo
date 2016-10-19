@@ -18,8 +18,7 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object.World;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.ICommonNodeAction;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.TraversalVisitor;
 
-public class GraphicsContext extends ApplicationAdapter {
-	private static final String OBJECT_PACKAGE = "de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object";
+public class ApplicationContext extends ApplicationAdapter {
 	private final Matrix4 oldTransform = new Matrix4();
 	private SpriteBatch batch;
 	private ParticleEffect stars;
@@ -30,9 +29,11 @@ public class GraphicsContext extends ApplicationAdapter {
 	private ICommonNodeAction<RuntimeException> renderAction;
 	private ICommonNodeAction<RuntimeException> updateAction;
 	private NodeActionQueue nodeActionQueue;
-	private static GraphicsContext currentInstance;
+	private ResourceManager resourceManager;
 
-	public GraphicsContext() {
+	private static ApplicationContext currentInstance;
+
+	public ApplicationContext() {
 		currentInstance = this;
 	}
 
@@ -41,8 +42,8 @@ public class GraphicsContext extends ApplicationAdapter {
 		camera = new OrthographicCamera(1600, 1066);
 		batch = new SpriteBatch();
 		nodeActionQueue = new NodeActionQueue();
-		Resource.init();
-		stars = Resource.particleEffect("stars.eff");
+		resourceManager = new ResourceManager();
+		stars = resourceManager.particleEffect("stars.eff");
 		stars.setPosition(-800, 500);
 		setRootNode();
 		rootNode.printDebug();
@@ -85,14 +86,14 @@ public class GraphicsContext extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
-		Resource.dispose();
+		resourceManager.dispose();
 	}
 
 	private ICommonNodeAction<RuntimeException> makeUpdateAction() {
 		return new ICommonNodeAction<RuntimeException>() {
 			@Override
 			public void visit(final ANode node) throws RuntimeException {
-				node.updateAction(GraphicsContext.this);
+				node.updateAction(ApplicationContext.this);
 			}
 		};
 	}
@@ -101,7 +102,7 @@ public class GraphicsContext extends ApplicationAdapter {
 		return new ICommonNodeAction<RuntimeException>() {
 			@Override
 			public void visit(final ANode node) throws RuntimeException {
-				node.renderAction(GraphicsContext.this);
+				node.renderAction(ApplicationContext.this);
 			}
 		};
 	}
@@ -122,7 +123,11 @@ public class GraphicsContext extends ApplicationAdapter {
 		return nodeActionQueue;
 	}
 
-	public static GraphicsContext getInstance() {
+	public ResourceManager getResourceManager() {
+		return resourceManager;
+	}
+
+	public static ApplicationContext getInstance() {
 		return currentInstance;
 	}
 }

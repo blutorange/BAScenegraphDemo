@@ -1,7 +1,7 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Resource;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeDrawable;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeColor;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
@@ -44,13 +44,13 @@ public class Gnome extends NodeController {
 	protected void make() {
 		color = new NodeColor();
 
-		torso = new NodeSprite(Resource.sprite("gnome/torso.png"));
-		head = new NodeSprite(Resource.sprite("gnome/head.png"));
+		torso = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/torso.png"));
+		head = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/head.png"));
 		score = new NodeText(60,"0");
-		leftArm = new NodeSprite(Resource.sprite("gnome/leftarm.png"));
-		rightArm = new NodeSprite(Resource.sprite("gnome/rightarm.png"));
-		leftLeg = new NodeSprite(Resource.sprite("gnome/leftleg.png"));
-		rightLeg = new NodeSprite(Resource.sprite("gnome/rightleg.png"));
+		leftArm = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/leftarm.png"));
+		rightArm = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/rightarm.png"));
+		leftLeg = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/leftleg.png"));
+		rightLeg = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/rightleg.png"));
 
 		head.setOrigin(0.7f, 0.3f);
 		leftArm.setOrigin(0.875f,0.95f);

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.GraphicsContext;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 
 public class NodeSprite extends ANodeDrawable {
@@ -53,7 +53,7 @@ public class NodeSprite extends ANodeDrawable {
 	}
 
 	@Override
-	public void renderAction(final GraphicsContext context) {
+	public void renderAction(final ApplicationContext context) {
 		applyBatch(context);
 		sprite.setColor(getCascadedColor());
 		final float x = sprite.getX();

@@ -3,7 +3,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.desktop;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.GraphicsContext;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 
 public class DesktopLauncher {
 	public static void main (final String[] args) {
@@ -44,7 +44,7 @@ public class DesktopLauncher {
 		if (args.length>3) {
 			config.fullscreen = Boolean.parseBoolean(args[3]);
 		}
-		final LwjglApplication app = new LwjglApplication(new GraphicsContext(), config);
+		final LwjglApplication app = new LwjglApplication(new ApplicationContext(), config);
 		System.out.println(String.format("Started app %s.", app));
 	}
 }

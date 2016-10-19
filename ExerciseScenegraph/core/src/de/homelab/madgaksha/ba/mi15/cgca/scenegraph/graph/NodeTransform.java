@@ -4,11 +4,11 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.GraphicsContext;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.VisitorSmoothingFactor;
 
-public class NodeTransform extends ANode {
+public class NodeTransform extends ANodeGroup {
 	/** @see #cascadeTransform(Matrix4) */
 	private final Matrix4 transform = new Matrix4();
 	private final Matrix4 cascadedTransform = new Matrix4();
@@ -51,7 +51,7 @@ public class NodeTransform extends ANode {
 	}
 
 	public ANode setSmoothingFactorForThisAndChildren(final float smoothingFactor) {
-		GraphicsContext.getInstance().getNodeActionQueue()
+		ApplicationContext.getInstance().getNodeActionQueue()
 		.addAction(new NodeActionSetSmoothingFactorForThisAndChildren(this, smoothingFactor));
 		return this;
 	}
@@ -71,14 +71,14 @@ public class NodeTransform extends ANode {
 	}
 
 	@Override
-	public void updateAction(final GraphicsContext context) {
+	public void updateAction(final ApplicationContext context) {
 		if (smoothingFactor != 1f) smoothTransform.lerp(transform, smoothingFactor);
 		else smoothTransform.set(transform);
 		cascadedTransform.set(parent != null ? parent.getCascadedTransform() : IDENTITY).mul(smoothTransform);
 	}
 
 	@Override
-	public void renderAction(final GraphicsContext context) {
+	public void renderAction(final ApplicationContext context) {
 	}
 
 	@Override
