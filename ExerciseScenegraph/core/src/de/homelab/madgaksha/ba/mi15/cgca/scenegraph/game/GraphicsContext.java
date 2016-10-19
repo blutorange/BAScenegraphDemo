@@ -18,6 +18,7 @@ import com.google.common.reflect.ClassPath.ClassInfo;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.WorldNode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeActionQueue;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.ICommonNodeAction;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.TraversalVisitor;
@@ -33,11 +34,18 @@ public class GraphicsContext extends ApplicationAdapter {
 	private TraversalVisitor<RuntimeException> traversalVisitor;
 	private ICommonNodeAction<RuntimeException> renderAction;
 	private ICommonNodeAction<RuntimeException> updateAction;
+	private NodeActionQueue nodeActionQueue;
+	private static GraphicsContext currentInstance;
+
+	public GraphicsContext() {
+		currentInstance = this;
+	}
 
 	@Override
 	public void create () {
 		camera = new OrthographicCamera(1600, 1066);
 		batch = new SpriteBatch();
+		nodeActionQueue = new NodeActionQueue();
 		Resource.init();
 		stars = Resource.particleEffect("stars.eff");
 		stars.setPosition(-800, 500);
@@ -80,6 +88,8 @@ public class GraphicsContext extends ApplicationAdapter {
 	public void render () {
 		deltaTime = Gdx.graphics.getRawDeltaTime();
 		time += deltaTime;
+
+		nodeActionQueue.perform();
 
 		rootNode.accept(traversalVisitor, updateAction);
 
@@ -135,5 +145,13 @@ public class GraphicsContext extends ApplicationAdapter {
 
 	public Batch getBatch() {
 		return batch;
+	}
+
+	public NodeActionQueue getNodeActionQueue() {
+		return nodeActionQueue;
+	}
+
+	public static GraphicsContext getInstance() {
+		return currentInstance;
 	}
 }

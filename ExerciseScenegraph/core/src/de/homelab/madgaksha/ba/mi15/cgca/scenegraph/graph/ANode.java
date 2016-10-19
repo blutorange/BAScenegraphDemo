@@ -45,12 +45,18 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 		return addChild(node, traversalPriority, children.size());
 	}
 
-	public ANode addChild(final ANode node, final int traversalPriority, final int position) {
+	public final ANode addChild(final ANode node, final int traversalPriority, final int position) {
+		GraphicsContext.getInstance().getNodeActionQueue().addAction(new NodeActionAddChild(this, node, traversalPriority, position));
+		return this;
+	}
+
+
+	public void addChildInternal(final ANode node, final int traversalPriority, final int position) {
 		children.add(position, new PrioritizedNode(node, traversalPriority));
 		node.parent = this;
 		dirty = true;
-		return this;
 	}
+
 
 	public abstract <R,T,E extends Throwable> R accept(INodeVisitor<R, T, E>  visitor, T data) throws E;
 
@@ -160,11 +166,15 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 		dirty = false;
 	}
 
-	public final ANode removeChild(final int index) {
-		if (index >= children.size()) return this;
+	public final ANode removeChild(final int position) {
+		GraphicsContext.getInstance().getNodeActionQueue().addAction(new NodeActionRemoveChild(this, position));
+		return this;
+	}
+
+	public final void removeChildInternal(final int index) {
+		if (index >= children.size()) return;
 		children.get(index).node.parent = null;
 		children.remove(index);
-		return this;
 	}
 
 	public final ANode reset() {
@@ -235,4 +245,33 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 	/** Some common action a node needs to do on each update. Should not recurse. Called in the correct traversal order. */
 	public abstract void updateAction(GraphicsContext context);
 	public abstract void renderAction(GraphicsContext context);
+
+	private static class NodeActionAddChild implements INodeAction {
+		private final ANode parent;
+		private final ANode child;
+		private final int traversalPriority;
+		private final int position;
+		public NodeActionAddChild(final ANode parent, final ANode child, final int traversalPriority, final int position) {
+			this.parent = parent;
+			this.child = child;
+			this.traversalPriority = traversalPriority;
+			this.position = position;
+		}
+		@Override
+		public void perform() {
+			parent.addChildInternal(child, traversalPriority, position);
+		}
+	}
+	private static class NodeActionRemoveChild implements INodeAction {
+		private final ANode parent;
+		private final int position;
+		public NodeActionRemoveChild(final ANode parent, final int position) {
+			this.parent = parent;
+			this.position = position;
+		}
+		@Override
+		public void perform() {
+			parent.removeChildInternal(position);
+		}
+	}
 }
