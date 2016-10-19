@@ -8,7 +8,6 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeSprite;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeText;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.SmoothingFactorVisitor;
 
 public class Gnome extends NodeController {
 	private int scoreNumber;
@@ -102,7 +101,7 @@ public class Gnome extends NodeController {
 		mScore.addChild(score);
 		mTorso.addChild(torso);
 
-		tAll.accept(SmoothingFactorVisitor.INSTANCE, 0.05f);
+		tAll.setSmoothingFactorForThisAndChildren(0.05f);
 	}
 
 	@Override

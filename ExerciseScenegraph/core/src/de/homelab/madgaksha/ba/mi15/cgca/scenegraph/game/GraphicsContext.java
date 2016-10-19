@@ -1,7 +1,5 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game;
 
-import java.io.IOException;
-
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -12,14 +10,11 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.utils.GdxRuntimeException;
-import com.google.common.reflect.ClassPath;
-import com.google.common.reflect.ClassPath.ClassInfo;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.WorldNode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeActionQueue;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object.World;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.ICommonNodeAction;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.TraversalVisitor;
 
@@ -57,31 +52,7 @@ public class GraphicsContext extends ApplicationAdapter {
 	}
 
 	private void setRootNode() {
-		try {
-			Class<?> clazz = null;
-			for (final ClassInfo info : ClassPath.from(getClass().getClassLoader()).getTopLevelClasses(OBJECT_PACKAGE)) {
-				final Class<?> tmp = info.load();
-				if (tmp.getDeclaredAnnotation(WorldNode.class) != null) {
-					if (clazz != null) throw new GdxRuntimeException(String.format("Es kann nur einen Weltenknoten geben, aber sowohl %s als auch %s sind welche.", clazz.getSimpleName(), tmp.getSimpleName()));
-					clazz = tmp;
-				}
-			}
-			if (clazz == null) throw new GdxRuntimeException("Keinen Weltknoten gefunden.");
-			if (!NodeController.class.isAssignableFrom(clazz)) throw new GdxRuntimeException("Weltknoten muss vom Typ NodeUnit sein.");
-			rootNode = (NodeController)clazz.newInstance();
-		}
-		catch (final IOException e) {
-			e.printStackTrace();
-			throw new GdxRuntimeException("Fehler beim Laden des Welknoten.");
-		}
-		catch (final InstantiationException e) {
-			e.printStackTrace();
-			throw new GdxRuntimeException("Fehler beim Laden des Welknoten.");
-		}
-		catch (final IllegalAccessException e) {
-			e.printStackTrace();
-			throw new GdxRuntimeException("Fehler beim Laden des Welknoten.");
-		}
+		rootNode = new World();
 	}
 
 	@Override

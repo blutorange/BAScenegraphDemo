@@ -8,7 +8,6 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.WorldNode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Resource;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeColor;
@@ -16,7 +15,6 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeSprite;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
 
-@WorldNode
 public class World extends NodeController {
 	private WorldController controller;
 	int butterflyCount;
@@ -78,8 +76,8 @@ public class World extends NodeController {
 		addChild(cWorld);
 
 		makeBackground();
-		makeButterflies();
 		makePlayers();
+		makeButterflies();
 		makeMusic();
 
 		controller = new WorldController(this);

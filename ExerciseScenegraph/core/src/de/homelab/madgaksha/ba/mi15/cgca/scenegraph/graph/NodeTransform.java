@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.GraphicsContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.VisitorSmoothingFactor;
 
 public class NodeTransform extends ANode {
 	/** @see #cascadeTransform(Matrix4) */
@@ -49,6 +50,12 @@ public class NodeTransform extends ANode {
 		return this;
 	}
 
+	public ANode setSmoothingFactorForThisAndChildren(final float smoothingFactor) {
+		GraphicsContext.getInstance().getNodeActionQueue()
+		.addAction(new NodeActionSetSmoothingFactorForThisAndChildren(this, smoothingFactor));
+		return this;
+	}
+
 	public float getSmoothingFactor() {
 		return smoothingFactor;
 	}
@@ -74,5 +81,22 @@ public class NodeTransform extends ANode {
 	public void renderAction(final GraphicsContext context) {
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + "@" + smoothingFactor;
+	}
+
+	private static class NodeActionSetSmoothingFactorForThisAndChildren implements INodeAction {
+		private final NodeTransform node;
+		private final float smoothingFactor;
+		public NodeActionSetSmoothingFactorForThisAndChildren(final NodeTransform node, final float smoothingFactor) {
+			this.node = node;
+			this.smoothingFactor = smoothingFactor;
+		}
+		@Override
+		public void perform() {
+			node.accept(VisitorSmoothingFactor.INSTANCE, smoothingFactor);
+		}
+	}
 
 }

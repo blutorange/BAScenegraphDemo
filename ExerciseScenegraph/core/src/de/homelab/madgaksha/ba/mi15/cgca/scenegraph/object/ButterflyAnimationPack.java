@@ -2,7 +2,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
 import com.badlogic.gdx.math.MathUtils;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.SmoothingFactorVisitor;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.VisitorSmoothingFactor;
 
 public enum ButterflyAnimationPack implements Animation<Butterfly> {
 	FLYING {
@@ -63,7 +63,7 @@ public enum ButterflyAnimationPack implements Animation<Butterfly> {
 
 		@Override
 		public void begin(final Butterfly bf, final float time, final float deltaTime) {
-			bf.accept(SmoothingFactorVisitor.INSTANCE, 0.2f);
+			bf.accept(VisitorSmoothingFactor.INSTANCE, 0.2f);
 		}
 
 		@Override

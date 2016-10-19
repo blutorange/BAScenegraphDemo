@@ -19,18 +19,13 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 	}
 
 	private final static AtomicLong idProvider = new AtomicLong();
-
-	public final Type type;
-
 	protected final static Matrix4 IDENTITY = new Matrix4();
 
+	public final Type type;
 	private final long id;
-
-	private final List<PrioritizedNode> children = new ArrayList<>();
-
-	private boolean dirty = true;
-
 	protected ANode parent = null;
+	private final List<PrioritizedNode> children = new ArrayList<>();
+	private boolean dirty = true;
 
 	public ANode(final Type type) {
 		this.type = type;
@@ -246,7 +241,7 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 	public abstract void updateAction(GraphicsContext context);
 	public abstract void renderAction(GraphicsContext context);
 
-	private static class NodeActionAddChild implements INodeAction {
+	public static class NodeActionAddChild implements INodeAction {
 		private final ANode parent;
 		private final ANode child;
 		private final int traversalPriority;
@@ -262,7 +257,7 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 			parent.addChildInternal(child, traversalPriority, position);
 		}
 	}
-	private static class NodeActionRemoveChild implements INodeAction {
+	public static class NodeActionRemoveChild implements INodeAction {
 		private final ANode parent;
 		private final int position;
 		public NodeActionRemoveChild(final ANode parent, final int position) {
