@@ -2,6 +2,8 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
 import com.badlogic.gdx.math.MathUtils;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.SmoothingFactorVisitor;
+
 public enum ButterflyAnimationPack implements Animation<Butterfly> {
 	FLYING {
 		@Override
@@ -16,16 +18,16 @@ public enum ButterflyAnimationPack implements Animation<Butterfly> {
 			final float scaleHead = 1f+0.08f*MathUtils.sinDeg(47f*time);
 			final float scaleEye = 1f+0.08f*MathUtils.sinDeg(51f*time+90f);
 
-			bf.getByName("wingTopLeft").reset().rotate(rotateWing1);
-			bf.getByName("wingTopRight").reset().rotate(-rotateWing1);
-			bf.getByName("wingBottomLeft").reset().rotate(rotateWing2);
-			bf.getByName("wingBottomRight").reset().rotate(-rotateWing2);
-			bf.getByName("cHead").reset().scale(scaleHead).rotate(rotateHead);
-			bf.getByName("eyeLeft").reset().scale(scaleEye).rotate(rotateEye);
-			bf.getByName("eyeRight").reset().scale(scaleEye).rotate(rotateEye);
-			bf.getByName("tBody").reset().rotate(rotateBody);
-			bf.getByName("mouth").reset().rotate(rotateMouth);
-			bf.getByName("antennae").reset().rotate(rotateAntennae);
+			bf.mWingTopLeft.reset().rotate(rotateWing1);
+			bf.mWingTopRight.reset().rotate(-rotateWing1);
+			bf.mWingBottomLeft.reset().rotate(rotateWing2);
+			bf.mWingBottomRight.reset().rotate(-rotateWing2);
+			bf.mHead.reset().scale(scaleHead).rotate(rotateHead);
+			bf.mEyeLeft.reset().scale(scaleEye).rotate(rotateEye);
+			bf.mEyeRight.reset().scale(scaleEye).rotate(rotateEye);
+			bf.tBody.reset().rotate(rotateBody);
+			bf.mMouth.reset().rotate(rotateMouth);
+			bf.mAntennae.reset().rotate(rotateAntennae);
 		}
 
 		@Override
@@ -48,20 +50,20 @@ public enum ButterflyAnimationPack implements Animation<Butterfly> {
 			final float rotateBody = 60f*MathUtils.sinDeg(99f*time);
 			final float scaleAntennae = 1f+0.5f*MathUtils.sinDeg(273f*time);
 			final float scaleMouth = MathUtils.sinDeg(77f*time);
-			bf.getByName("wingTopLeft").reset().rotate(sawWing);
-			bf.getByName("wingTopRight").reset().rotate(-sawWing);
-			bf.getByName("wingBottomLeft").reset().rotate(sawWing);
-			bf.getByName("wingBottomRight").reset().rotate(-sawWing);
-			bf.getByName("eyeLeft").rotate(5f);
-			bf.getByName("eyeRight").rotate(5f);
-			bf.getByName("tBody").reset().rotate(rotateBody).scale(scaleBody*scaleBody2,scaleBody2).translate(0f, translateBody);
-			bf.getByName("mouth").reset().scale(1f, scaleMouth);
-			bf.getByName("antennae").reset().scale(1f,scaleAntennae);
+			bf.mWingTopLeft.reset().rotate(sawWing);
+			bf.mWingTopRight.reset().rotate(-sawWing);
+			bf.mWingBottomLeft.reset().rotate(sawWing);
+			bf.mWingBottomRight.reset().rotate(-sawWing);
+			bf.mEyeLeft.rotate(5f);
+			bf.mEyeRight.rotate(5f);
+			bf.tBody.reset().rotate(rotateBody).scale(scaleBody*scaleBody2,scaleBody2).translate(0f, translateBody);
+			bf.mMouth.reset().scale(1f, scaleMouth);
+			bf.mAntennae.reset().scale(1f,scaleAntennae);
 		}
 
 		@Override
 		public void begin(final Butterfly bf, final float time, final float deltaTime) {
-			bf.setSmoothingFactorForThisAndChildren(0.2f);
+			bf.accept(SmoothingFactorVisitor.INSTANCE, 0.2f);
 		}
 
 		@Override

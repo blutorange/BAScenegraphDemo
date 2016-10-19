@@ -1,16 +1,18 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
 
-public class NodeText extends ANode {
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.GraphicsContext;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
+
+public class NodeText extends ANodeDrawable {
 
 	private String string;
 	private final BitmapFont font;
 
 	public NodeText(final float size, final String string) {
+		super(Type.TEXT);
 		setString(string);
 		font = new BitmapFont();
 		scale(size/15f);
@@ -21,12 +23,6 @@ public class NodeText extends ANode {
 		return this;
 	}
 
-	@Override
-	public void draw(final Batch batch, final Color color) {
-		font.setColor(color);
-		font.draw(batch, string, 0, 0, 999999, Align.center, false);
-		font.draw(batch, string, 0, 0);
-	}
 
 	@Override
 	public float getLeftWidth() {
@@ -52,4 +48,19 @@ public class NodeText extends ANode {
 		throw new RuntimeException("TODO - not yet implemented");
 	}
 
+	@Override
+	public <R, T, E extends Throwable> R accept(final INodeVisitor<R, T, E> visitor, final T data) throws E {
+		return visitor.visit(this, data);
+	}
+
+	@Override
+	public void updateAction(final GraphicsContext context) {
+	}
+
+	@Override
+	public void renderAction(final GraphicsContext context) {
+		applyBatch(context);
+		font.setColor(getCascadedColor());
+		font.draw(context.getBatch(), string, 0, 0, 999999, Align.center, false);
+	}
 }

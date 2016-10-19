@@ -1,40 +1,78 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.GraphicsContext;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
+
 public class NodeTransform extends ANode {
+	/** @see #cascadeTransform(Matrix4) */
+	private final Matrix4 transform = new Matrix4();
+	private final Matrix4 cascadedTransform = new Matrix4();
+	private final Matrix4 smoothTransform = new Matrix4();
+	private float smoothingFactor = 1f;
+
 	public NodeTransform(final Matrix4 transform) {
-		super(transform);
+		super(Type.TRANSFORM);
+		if (transform == null)
+			this.transform.idt();
+		else
+			this.transform.set(transform);
 	}
+
 	public NodeTransform() {
-		super();
+		this(new Matrix4().idt());
 	}
+
 	public NodeTransform(final Vector2 origin) {
-		super(origin.x, origin.y);
+		this(origin.x, origin.y);
 	}
+
 	public NodeTransform(final float x, final float y) {
-		super(new Matrix4().translate(x, y, 0));
+		this(new Matrix4().translate(x, y, 0));
 	}
+
 	@Override
-	public void draw(final Batch batch, final Color color) {
+	public <R, T, E extends Throwable> R accept(final INodeVisitor<R, T, E> visitor, final T data) throws E {
+		return visitor.visit(this, data);
 	}
+
+	public ANode setSmoothToIsTransform() {
+		this.smoothTransform.set(transform);
+		return this;
+	}
+
+	public ANode setSmoothingFactor(final float smoothingFactor) {
+		this.smoothingFactor = MathUtils.clamp(smoothingFactor, 0f, 1f);
+		return this;
+	}
+
+	public float getSmoothingFactor() {
+		return smoothingFactor;
+	}
+
 	@Override
-	public float getLeftWidth() {
-		return 0f;
+	public Matrix4 getCascadedTransform() {
+		return cascadedTransform;
 	}
+
 	@Override
-	public float getRightWidth() {
-		return 0f;
+	public Matrix4 getTransform() {
+		return transform;
 	}
+
 	@Override
-	public float getTopHeight() {
-		return 0f;
+	public void updateAction(final GraphicsContext context) {
+		if (smoothingFactor != 1f) smoothTransform.lerp(transform, smoothingFactor);
+		else smoothTransform.set(transform);
+		cascadedTransform.set(parent != null ? parent.getCascadedTransform() : IDENTITY).mul(smoothTransform);
 	}
+
 	@Override
-	public float getBottomHeight() {
-		return 0f;
+	public void renderAction(final GraphicsContext context) {
 	}
+
+
 }

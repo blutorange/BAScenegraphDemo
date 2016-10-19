@@ -4,18 +4,18 @@ import com.badlogic.gdx.math.MathUtils;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.PoemGenerator;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeText;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeUnit;
 
-public class Poem extends NodeUnit {
+public class Poem extends NodeController {
 
 	private PoemController controller;
 	NodeTransform tText;
 	NodeText text;
 
 	@Override
-	protected Controller getController() {
+	public Controller getController() {
 		return controller;
 	}
 
@@ -23,8 +23,8 @@ public class Poem extends NodeUnit {
 	protected void make() {
 		text = new NodeText(MathUtils.random(30f,60f), PoemGenerator.lineFromRandomTheme());
 		tText = new NodeTransform();
-		addChild("tText", tText);
-		tText.addChild("text", text);
+		addChild(tText);
+		tText.addChild(text);
 		controller = new PoemController(this);
 	}
 

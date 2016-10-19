@@ -1,8 +1,8 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeUnit;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 
-public interface Animation<T extends NodeUnit> {
+public interface Animation<T extends NodeController> {
 	/** Wird während des Update aufgerufen. */
 	public void animate(T object, final float time, final float deltaTime);
 

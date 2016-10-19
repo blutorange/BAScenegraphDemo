@@ -1,15 +1,14 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
@@ -19,17 +18,21 @@ import com.google.common.reflect.ClassPath.ClassInfo;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.WorldNode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeUnit;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.PrioritizedNode;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.ICommonNodeAction;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.TraversalVisitor;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class GraphicsContext extends ApplicationAdapter {
 	private static final String OBJECT_PACKAGE = "de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object";
 	private final Matrix4 oldTransform = new Matrix4();
 	private SpriteBatch batch;
 	private ParticleEffect stars;
-	private NodeUnit rootNode;
-	private float time;
+	private NodeController rootNode;
 	private Camera camera;
+	private float time, deltaTime;
+	private TraversalVisitor<RuntimeException> traversalVisitor;
+	private ICommonNodeAction<RuntimeException> renderAction;
+	private ICommonNodeAction<RuntimeException> updateAction;
 
 	@Override
 	public void create () {
@@ -39,6 +42,10 @@ public class MyGdxGame extends ApplicationAdapter {
 		stars = Resource.particleEffect("stars.eff");
 		stars.setPosition(-800, 500);
 		setRootNode();
+		rootNode.printDebug();
+		traversalVisitor = new TraversalVisitor<RuntimeException>();
+		renderAction = makeRenderAction();
+		updateAction = makeUpdateAction();
 	}
 
 	private void setRootNode() {
@@ -52,8 +59,8 @@ public class MyGdxGame extends ApplicationAdapter {
 				}
 			}
 			if (clazz == null) throw new GdxRuntimeException("Keinen Weltknoten gefunden.");
-			if (!NodeUnit.class.isAssignableFrom(clazz)) throw new GdxRuntimeException("Weltknoten muss vom Typ NodeUnit sein.");
-			rootNode = (NodeUnit)clazz.newInstance();
+			if (!NodeController.class.isAssignableFrom(clazz)) throw new GdxRuntimeException("Weltknoten muss vom Typ NodeUnit sein.");
+			rootNode = (NodeController)clazz.newInstance();
 		}
 		catch (final IOException e) {
 			e.printStackTrace();
@@ -71,10 +78,10 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		final float dt = Gdx.graphics.getRawDeltaTime();
-		time += dt;
-		rootNode.updateThisAndChildren(time, dt);
-		rootNode.cascadeTransform(new Matrix4().idt());
+		deltaTime = Gdx.graphics.getRawDeltaTime();
+		time += deltaTime;
+
+		rootNode.accept(traversalVisitor, updateAction);
 
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -83,15 +90,14 @@ public class MyGdxGame extends ApplicationAdapter {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		renderNode(rootNode, Color.WHITE);
+		rootNode.accept(traversalVisitor, renderAction);
 		batch.setTransformMatrix(oldTransform);
-		stars.draw(batch, dt);
+		stars.draw(batch, deltaTime);
 		if (stars.isComplete()) {
 			stars.reset();
 			stars.start();
 		}
 		batch.end();
-
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) Gdx.app.exit();
 	}
 
@@ -101,13 +107,33 @@ public class MyGdxGame extends ApplicationAdapter {
 		Resource.dispose();
 	}
 
-	private void renderNode(final ANode node, final Color color) {
-		batch.setTransformMatrix(node.getCascadedTransform());
-		final Color newColor = new Color(color);
-		if (node.getColor() != null) newColor.mul(node.getColor());
-		node.draw(batch, newColor);
-		for (final Iterator<PrioritizedNode> it = node.sortedIterator(); it.hasNext();) {
-			renderNode(it.next().node, newColor);
-		}
+	private ICommonNodeAction<RuntimeException> makeUpdateAction() {
+		return new ICommonNodeAction<RuntimeException>() {
+			@Override
+			public void visit(final ANode node) throws RuntimeException {
+				node.updateAction(GraphicsContext.this);
+			}
+		};
+	}
+
+	private ICommonNodeAction<RuntimeException> makeRenderAction() {
+		return new ICommonNodeAction<RuntimeException>() {
+			@Override
+			public void visit(final ANode node) throws RuntimeException {
+				node.renderAction(GraphicsContext.this);
+			}
+		};
+	}
+
+	public float getTime() {
+		return time;
+	}
+
+	public float getDeltaTime() {
+		return deltaTime;
+	}
+
+	public Batch getBatch() {
+		return batch;
 	}
 }

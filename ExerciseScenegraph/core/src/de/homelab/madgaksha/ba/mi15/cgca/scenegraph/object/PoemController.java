@@ -43,7 +43,8 @@ public class PoemController implements Controller {
 			alpha *= (1f-(relTime-lifeTime)/alphaTime);
 		}
 		else poem.detach();
-		poem.setAlpha(alpha);
+
+		poem.text.setAlpha(alpha);
 	}
 
 }

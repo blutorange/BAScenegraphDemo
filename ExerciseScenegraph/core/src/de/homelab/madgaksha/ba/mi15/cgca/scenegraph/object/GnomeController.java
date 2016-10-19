@@ -57,10 +57,10 @@ public class GnomeController implements Controller {
 		final Animation<Gnome> oldMode = animationMode;
 		switch (getDirection()) {
 		case LEFT:
-			gnome.getByName("tAll").reset().mirrorX();
+			gnome.tAll.reset().mirrorX();
 			break;
 		case RIGHT:
-			gnome.getByName("tAll").reset();
+			gnome.tAll.reset();
 			break;
 		default:
 			break;

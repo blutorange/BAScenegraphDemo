@@ -14,15 +14,15 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 			final float rotate1 = 25f*MathUtils.sinDeg(time*220);
 			final float rotate2 = 25f*MathUtils.sinDeg(time*220+90f);
 
-			gnome.getByName("head").reset().rotate(15f*MathUtils.sinDeg(time*100f)).scale(1f+0.05f*MathUtils.sinDeg(time*100f));
+			gnome.mHead.reset().rotate(15f*MathUtils.sinDeg(time*100f)).scale(1f+0.05f*MathUtils.sinDeg(time*100f));
 
-			gnome.getByName("torso").reset().translate(0,2f*MathUtils.sinDeg(time*220));
+			gnome.mTorso.reset().translate(0,2f*MathUtils.sinDeg(time*220));
 
-			gnome.getByName("leftArm").reset().rotate(30f*MathUtils.sinDeg(time*220));
-			gnome.getByName("rightArm").reset().rotate(30f*MathUtils.sinDeg(time*220+90.0f));
+			gnome.mLeftArm.reset().rotate(30f*MathUtils.sinDeg(time*220));
+			gnome.mRightArm.reset().rotate(30f*MathUtils.sinDeg(time*220+90.0f));
 
-			gnome.getByName("leftLeg").reset().rotate(rotate1);
-			gnome.getByName("rightLeg").reset().rotate(rotate2);
+			gnome.mLeftLeg.reset().rotate(rotate1);
+			gnome.mRightLeg.reset().rotate(rotate2);
 		}
 
 		@Override
@@ -48,15 +48,15 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 			final float scale = 1f+0.035f*MathUtils.sinDeg(time*100f);
 			final float scaleHead = 1f+0.015f*MathUtils.sinDeg(time*100f);
 
-			gnome.getByName("head").reset().rotate(5f*MathUtils.sinDeg(time*100f)).scale(scaleHead).translate(0, dy);
+			gnome.mHead.reset().rotate(5f*MathUtils.sinDeg(time*100f)).scale(scaleHead).translate(0, dy);
 
-			gnome.getByName("torso").reset().scale(scale).translate(0f, dy);
+			gnome.mTorso.reset().scale(scale).translate(0f, dy);
 
-			gnome.getByName("leftArm").reset().translate(0f, dy);
-			gnome.getByName("rightArm").reset().translate(0f, dy);
+			gnome.mLeftArm.reset().translate(0f, dy);
+			gnome.mRightArm.reset().translate(0f, dy);
 
-			gnome.getByName("leftLeg").reset().scale(scale).rotate(4f*MathUtils.sinDeg(time*40f));
-			gnome.getByName("rightLeg").reset().scale(scale).rotate(4f*MathUtils.sinDeg(time*40+90.0f));
+			gnome.mLeftLeg.reset().scale(scale).rotate(4f*MathUtils.sinDeg(time*40f));
+			gnome.mRightLeg.reset().scale(scale).rotate(4f*MathUtils.sinDeg(time*40+90.0f));
 		}
 
 		@Override
@@ -79,17 +79,17 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 			final float scaleHead = 1f+0.015f*MathUtils.sinDeg(time*100f);
 			final float crouchY = 100f;
 
-			gnome.getByName("tAll").translate(190f,-crouchY).rotate(-80f);
+			gnome.tAll.translate(190f,-crouchY).rotate(-80f);
 
-			gnome.getByName("head").reset().translate(0f,-50f).rotate(5f*MathUtils.sinDeg(time*100f)).scale(scaleHead-0.3f).translate(0, dy-crouchY);
+			gnome.mHead.reset().translate(0f,-50f).rotate(5f*MathUtils.sinDeg(time*100f)).scale(scaleHead-0.3f).translate(0, dy-crouchY);
 
-			gnome.getByName("torso").reset().scale(scale).translate(0f, dy-crouchY);
+			gnome.mTorso.reset().scale(scale).translate(0f, dy-crouchY);
 
-			gnome.getByName("leftArm").reset().translate(0f, dy-crouchY).rotate(80f);
-			gnome.getByName("rightArm").reset().translate(0f, dy-crouchY).rotate(110f);
+			gnome.mLeftArm.reset().translate(0f, dy-crouchY).rotate(80f);
+			gnome.mRightArm.reset().translate(0f, dy-crouchY).rotate(110f);
 
-			gnome.getByName("leftLeg").reset().translate(0f, -crouchY).rotate(60f+4f*MathUtils.sinDeg(time*40f)).scale(1f,0.7f);
-			gnome.getByName("rightLeg").reset().translate(0f, -crouchY).rotate(100f+4f*MathUtils.sinDeg(time*40+90.0f)).scale(1f, 0.5f);
+			gnome.mLeftLeg.reset().translate(0f, -crouchY).rotate(60f+4f*MathUtils.sinDeg(time*40f)).scale(1f,0.7f);
+			gnome.mRightLeg.reset().translate(0f, -crouchY).rotate(100f+4f*MathUtils.sinDeg(time*40+90.0f)).scale(1f, 0.5f);
 		}
 
 		@Override
@@ -99,8 +99,8 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 
 		@Override
 		public void end(final Gnome gnome, final float time, final float deltaTime) {
-			gnome.getByName("tAll").reset();
-			gnome.getByName("torso").reset();
+			gnome.tAll.reset();
+			gnome.mTorso.reset();
 		}
 	},
 
@@ -112,14 +112,14 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 
 			final float rotateArm = 15f*MathUtils.sinDeg(360f*time);
 
-			gnome.getByName("head").reset().rotate(-20f);
-			gnome.getByName("tAll").rotate(-30f).scale(0.9f);
+			gnome.mHead.reset().rotate(-20f);
+			gnome.tAll.rotate(-30f).scale(0.9f);
 
-			gnome.getByName("leftArm").reset().rotate(-100f+rotateArm);
-			gnome.getByName("rightArm").reset().rotate(100f+rotateArm);
+			gnome.mLeftArm.reset().rotate(-100f+rotateArm);
+			gnome.mRightArm.reset().rotate(100f+rotateArm);
 
-			gnome.getByName("leftLeg").reset().scale(1f, 0.5f).rotate(10f*MathUtils.sinDeg(time*80f));
-			gnome.getByName("rightLeg").reset().scale(1f, 0.5f).rotate(10f*MathUtils.sinDeg(time*80+90.0f));
+			gnome.mLeftLeg.reset().scale(1f, 0.5f).rotate(10f*MathUtils.sinDeg(time*80f));
+			gnome.mRightLeg.reset().scale(1f, 0.5f).rotate(10f*MathUtils.sinDeg(time*80+90.0f));
 		}
 
 		@Override
@@ -142,26 +142,26 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 			final float translate = 10f*MathUtils.sinDeg(800f*time);
 			final float scale = 1f+0.05f*MathUtils.sinDeg(749*time+90f);
 
-			gnome.getByName("tAll").rotate(-55f);
+			gnome.tAll.rotate(-55f);
 
-			gnome.getByName("head").reset().rotate(-20f).scale(scale).translate(0, translate);
-			gnome.getByName("torso").reset().scale(scale).translate(0, translate);
+			gnome.mHead.reset().rotate(-20f).scale(scale).translate(0, translate);
+			gnome.mTorso.reset().scale(scale).translate(0, translate);
 
-			gnome.getByName("leftArm").reset().rotate(-50f+rotateArm);
-			gnome.getByName("rightArm").reset().rotate(-70f+rotateArm);
+			gnome.mLeftArm.reset().rotate(-50f+rotateArm);
+			gnome.mRightArm.reset().rotate(-70f+rotateArm);
 
 
-			gnome.getByName("leftLeg").rotate(-12f);
-			gnome.getByName("rightLeg").rotate(-12f);
+			gnome.mLeftLeg.rotate(-12f);
+			gnome.mRightLeg.rotate(-12f);
 		}
 
 		@Override
 		public void begin(final Gnome gnome, final float time, final float deltaTime) {
 			startTime = time;
-			oldSmoothing1 = gnome.getByName("leftLeg").getSmoothingFactor();
-			oldSmoothing2 = gnome.getByName("rightLeg").getSmoothingFactor();
-			gnome.getByName("leftLeg").setSmoothingFactor(0.5f).reset();
-			gnome.getByName("rightLeg").setSmoothingFactor(0.5f).reset().rotate(120f);
+			oldSmoothing1 = gnome.mLeftLeg.getSmoothingFactor();
+			oldSmoothing2 = gnome.mRightLeg.getSmoothingFactor();
+			gnome.mLeftLeg.setSmoothingFactor(0.5f).reset();
+			gnome.mRightLeg.setSmoothingFactor(0.5f).reset().rotate(120f);
 			final Sound s = Resource.sound("steps.wav");
 			final long soundId = s.play();
 			s.setLooping(soundId, true);
@@ -169,8 +169,8 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 
 		@Override
 		public void end(final Gnome gnome, final float time, final float deltaTime) {
-			gnome.getByName("leftLeg").setSmoothingFactor(oldSmoothing1);
-			gnome.getByName("rightLeg").setSmoothingFactor(oldSmoothing2);
+			gnome.mLeftLeg.setSmoothingFactor(oldSmoothing1);
+			gnome.mRightLeg.setSmoothingFactor(oldSmoothing2);
 			Resource.sound("steps.wav").stop();
 		}
 	}

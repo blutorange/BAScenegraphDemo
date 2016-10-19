@@ -10,6 +10,8 @@ public class PrioritizedNode implements Comparable<PrioritizedNode> {
 	public final int priority;
 
 	public PrioritizedNode(final ANode node, final int priority) {
+		if (node == null)
+			throw new IllegalArgumentException("node must not be null");
 		this.node = node;
 		this.priority = priority;
 	}

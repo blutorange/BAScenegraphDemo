@@ -45,7 +45,7 @@ public class ButterflyController implements Controller{
 			if (catchTime > 10f) {
 				if (!renderPriorityChanged) {
 					renderPriorityChanged  = true;
-					butterfly.setRenderPriority(-2);
+					butterfly.setTraversalPriority(-2);
 				}
 				butterfly.scale(0.996f);
 			}

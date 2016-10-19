@@ -2,56 +2,107 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Resource;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeObject;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeDrawable;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeColor;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeSprite;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeText;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeUnit;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.SmoothingFactorVisitor;
 
-public class Gnome extends NodeUnit {
-	private int score;
+public class Gnome extends NodeController {
+	private int scoreNumber;
 	private GnomeController controller;
+
+	NodeText score;
+
+	NodeColor color;
+
+	ANodeDrawable torso;
+	ANodeDrawable head;
+	ANodeDrawable leftArm;
+	ANodeDrawable rightArm;
+	ANodeDrawable leftLeg;
+	ANodeDrawable rightLeg;
+
+	NodeTransform tAll;
+	NodeTransform tHead;
+	NodeTransform tScore;
+	NodeTransform tLeftArm;
+	NodeTransform tRightArm;
+	NodeTransform tLeftLeg;
+	NodeTransform tRightLeg;
+
+	NodeTransform mHead;
+	NodeTransform mTorso;
+	NodeTransform mScore;
+	NodeTransform mLeftArm;
+	NodeTransform mRightArm;
+	NodeTransform mLeftLeg;
+	NodeTransform mRightLeg;
 
 	@Override
 	protected void make() {
-		final ANode torso = new NodeObject(Resource.sprite("gnome/torso.png"));
-		final ANode head = new NodeObject(Resource.sprite("gnome/head.png")).setOrigin(0.7f, 0.3f);
-		final ANode score = new NodeText(60,"0");
-		final ANode leftArm = new NodeObject(Resource.sprite("gnome/leftarm.png")).setOrigin(0.875f,0.95f);
-		final ANode rightArm = new NodeObject(Resource.sprite("gnome/rightarm.png")).setOrigin(0.125f,0.95f);
-		final ANode leftLeg = new NodeObject(Resource.sprite("gnome/leftleg.png")).setOrigin(0.218f,1);
-		final ANode rightLeg = new NodeObject(Resource.sprite("gnome/rightleg.png")).setOrigin(0.218f,1);
+		color = new NodeColor();
 
-		final ANode tAll = new NodeTransform();
-		final ANode tHead = new NodeTransform(15, 150);
-		final ANode tScore = new NodeTransform(0f, 200f);
-		final ANode tLeftArm = new NodeTransform(-28, 70);
-		final ANode tRightArm = new NodeTransform(28, 70);
-		final ANode tLeftLeg = new NodeTransform(-18, -70);
-		final ANode tRightLeg = new NodeTransform(30, -70);
+		torso = new NodeSprite(Resource.sprite("gnome/torso.png"));
+		head = new NodeSprite(Resource.sprite("gnome/head.png"));
+		score = new NodeText(60,"0");
+		leftArm = new NodeSprite(Resource.sprite("gnome/leftarm.png"));
+		rightArm = new NodeSprite(Resource.sprite("gnome/rightarm.png"));
+		leftLeg = new NodeSprite(Resource.sprite("gnome/leftleg.png"));
+		rightLeg = new NodeSprite(Resource.sprite("gnome/rightleg.png"));
 
-		addChild("tAll", tAll);
+		head.setOrigin(0.7f, 0.3f);
+		leftArm.setOrigin(0.875f,0.95f);
+		rightArm.setOrigin(0.125f,0.95f);
+		leftLeg.setOrigin(0.218f,1);
+		rightLeg.setOrigin(0.218f,1);
 
-		tAll.addChild("torso", torso);
+		tAll = new NodeTransform();
+		tHead = new NodeTransform(15, 150);
+		tScore = new NodeTransform(0f, 200f);
+		tLeftArm = new NodeTransform(-28, 70);
+		tRightArm = new NodeTransform(28, 70);
+		tLeftLeg = new NodeTransform(-18, -70);
+		tRightLeg = new NodeTransform(30, -70);
 
-		tAll.addChild("tHead", tHead, 1);
-		tHead.addChild("head", head);
-		head.addChild("tScore", tScore, 2);
-		tScore.addChild("score", score);
+		mHead = new NodeTransform();
+		mScore = new NodeTransform();
+		mLeftArm = new NodeTransform();
+		mRightArm = new NodeTransform();
+		mLeftLeg = new NodeTransform();
+		mRightLeg = new NodeTransform();
+		mTorso = new NodeTransform();
 
-		tAll.addChild("tLeftLeg", tLeftLeg, 1);
-		tLeftLeg.addChild("leftLeg", leftLeg);
+		addChild(color);
+		color.addChild(tAll);
 
-		tAll.addChild("tRightLeg", tRightLeg, -1);
-		tRightLeg.addChild("rightLeg", rightLeg);
+		tAll.addChild(mTorso);
+		tAll.addChild(tHead, 1);
+		tAll.addChild(tLeftLeg, 1);
+		tAll.addChild(tRightLeg, -1);
+		tAll.addChild(tRightArm, -1);
+		tAll.addChild(tLeftArm, 1);
 
-		tAll.addChild("tRightArm", tRightArm, -1);
-		tRightArm.addChild("rightArm", rightArm);
+		tHead.addChild(mHead, 1);
+		mHead.addChild(tScore, 2);
 
-		tAll.addChild("tLeftArm", tLeftArm, 1);
-		tLeftArm.addChild("leftArm", leftArm);
+		tScore.addChild(mScore);
+		tLeftLeg.addChild(mLeftLeg);
+		tRightLeg.addChild(mRightLeg);
+		tRightArm.addChild(mRightArm);
+		tLeftArm.addChild(mLeftArm);
 
-		setSmoothingFactorForThisAndChildren(0.05f);
+		mHead.addChild(head);
+		mLeftArm.addChild(leftArm);
+		mLeftLeg.addChild(leftLeg);
+		mRightArm.addChild(rightArm);
+		mRightLeg.addChild(rightLeg);
+		mScore.addChild(score);
+		mTorso.addChild(torso);
+
+		tAll.accept(SmoothingFactorVisitor.INSTANCE, 0.05f);
 	}
 
 	@Override
@@ -75,12 +126,12 @@ public class Gnome extends NodeUnit {
 	}
 
 	public int getScore() {
-		return score;
+		return scoreNumber;
 	}
 
 	public void incrementScore() {
-		score++;
-		((NodeText)getByName("score")).setString(Integer.toString(score, 10));
+		scoreNumber++;
+		score.setString(Integer.toString(scoreNumber, 10));
 	}
 
 	public Gnome setController(final GnomeController controller) {
@@ -89,7 +140,7 @@ public class Gnome extends NodeUnit {
 	}
 
 	@Override
-	protected Controller getController() {
+	public Controller getController() {
 		return controller;
 	}
 }
