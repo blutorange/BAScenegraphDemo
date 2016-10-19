@@ -2,6 +2,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ResourceManager;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeDrawable;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeColor;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
@@ -10,6 +11,10 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeText;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
 
 public class Gnome extends NodeController {
+	public Gnome(final ApplicationContext ac) {
+		super(ac);
+	}
+
 	private int scoreNumber;
 	private GnomeController controller;
 
@@ -42,15 +47,17 @@ public class Gnome extends NodeController {
 
 	@Override
 	protected void make() {
-		color = new NodeColor();
+		final ResourceManager rm = ac().getResourceManager();
 
-		torso = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/torso.png"));
-		head = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/head.png"));
-		score = new NodeText(60,"0");
-		leftArm = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/leftarm.png"));
-		rightArm = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/rightarm.png"));
-		leftLeg = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/leftleg.png"));
-		rightLeg = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("gnome/rightleg.png"));
+		color = new NodeColor(ac());
+
+		torso = new NodeSprite(rm.sprite("gnome/torso.png"), ac());
+		head = new NodeSprite(rm.sprite("gnome/head.png"), ac());
+		score = new NodeText(60,"0", ac());
+		leftArm = new NodeSprite(rm.sprite("gnome/leftarm.png"), ac());
+		rightArm = new NodeSprite(rm.sprite("gnome/rightarm.png"), ac());
+		leftLeg = new NodeSprite(rm.sprite("gnome/leftleg.png"), ac());
+		rightLeg = new NodeSprite(rm.sprite("gnome/rightleg.png"), ac());
 
 		head.setOrigin(0.7f, 0.3f);
 		leftArm.setOrigin(0.875f,0.95f);
@@ -58,21 +65,21 @@ public class Gnome extends NodeController {
 		leftLeg.setOrigin(0.218f,1);
 		rightLeg.setOrigin(0.218f,1);
 
-		tAll = new NodeTransform();
-		tHead = new NodeTransform(15, 150);
-		tScore = new NodeTransform(0f, 200f);
-		tLeftArm = new NodeTransform(-28, 70);
-		tRightArm = new NodeTransform(28, 70);
-		tLeftLeg = new NodeTransform(-18, -70);
-		tRightLeg = new NodeTransform(30, -70);
+		tAll = new NodeTransform(ac());
+		tHead = new NodeTransform(15, 150, ac());
+		tScore = new NodeTransform(0f, 200f, ac());
+		tLeftArm = new NodeTransform(-28, 70, ac());
+		tRightArm = new NodeTransform(28, 70, ac());
+		tLeftLeg = new NodeTransform(-18, -70, ac());
+		tRightLeg = new NodeTransform(30, -70, ac());
 
-		mHead = new NodeTransform();
-		mScore = new NodeTransform();
-		mLeftArm = new NodeTransform();
-		mRightArm = new NodeTransform();
-		mLeftLeg = new NodeTransform();
-		mRightLeg = new NodeTransform();
-		mTorso = new NodeTransform();
+		mHead = new NodeTransform(ac());
+		mScore = new NodeTransform(ac());
+		mLeftArm = new NodeTransform(ac());
+		mRightArm = new NodeTransform(ac());
+		mLeftLeg = new NodeTransform(ac());
+		mRightLeg = new NodeTransform(ac());
+		mTorso = new NodeTransform(ac());
 
 		addChild(color);
 		color.addChild(tAll);

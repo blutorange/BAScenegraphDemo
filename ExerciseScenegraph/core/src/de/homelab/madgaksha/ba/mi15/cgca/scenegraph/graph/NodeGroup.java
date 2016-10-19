@@ -4,8 +4,8 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 
 public class NodeGroup extends ANodeGroup {
-	public NodeGroup() {
-		super(Type.GROUP);
+	public NodeGroup(final ApplicationContext ac) {
+		super(Type.GROUP, ac);
 	}
 
 	@Override

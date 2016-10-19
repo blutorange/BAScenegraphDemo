@@ -10,12 +10,12 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 public class NodeFilter extends ANodeGroup {
 	private Predicate<PrioritizedNode> predicate;
 
-	public NodeFilter() {
-		this(IdentityPredicate.INSTANCE);
+	public NodeFilter(final ApplicationContext ac) {
+		this(IdentityPredicate.INSTANCE, ac);
 	}
 
-	public NodeFilter(final Predicate<PrioritizedNode> predicate) {
-		super(Type.FILTER);
+	public NodeFilter(final Predicate<PrioritizedNode> predicate, final ApplicationContext ac) {
+		super(Type.FILTER, ac);
 		this.predicate = predicate;
 	}
 
@@ -42,7 +42,7 @@ public class NodeFilter extends ANodeGroup {
 	 * @return
 	 */
 	public NodeFilter setPredicate(final Predicate<PrioritizedNode> predicate) {
-		ApplicationContext.getInstance().getNodeActionQueue().addAction(new NodeActionSetPredicate(this, predicate));
+		ac().getNodeActionQueue().addAction(new NodeActionSetPredicate(this, predicate));
 		return this;
 	}
 

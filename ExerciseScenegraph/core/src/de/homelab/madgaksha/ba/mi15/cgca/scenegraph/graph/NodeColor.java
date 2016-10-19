@@ -10,8 +10,8 @@ public class NodeColor extends ANodeGroup implements IColoredNode {
 	private final Color color = new Color(Color.WHITE);
 	private final Color cascadedColor = new Color(Color.WHITE);
 
-	public NodeColor() {
-		super(Type.COLOR);
+	public NodeColor(final ApplicationContext ac) {
+		super(Type.COLOR, ac);
 	}
 
 	@Override

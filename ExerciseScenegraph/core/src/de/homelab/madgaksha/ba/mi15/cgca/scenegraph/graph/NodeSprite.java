@@ -10,8 +10,8 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 public class NodeSprite extends ANodeDrawable {
 	private Sprite sprite;
 
-	public NodeSprite(final Sprite sprite) {
-		super(Type.SPRITE);
+	public NodeSprite(final Sprite sprite, final ApplicationContext ac) {
+		super(Type.SPRITE, ac);
 		setSprite(sprite);
 	}
 

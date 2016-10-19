@@ -53,7 +53,7 @@ public class ApplicationContext extends ApplicationAdapter {
 	}
 
 	private void setRootNode() {
-		rootNode = new World();
+		rootNode = new World(this);
 	}
 
 	@Override

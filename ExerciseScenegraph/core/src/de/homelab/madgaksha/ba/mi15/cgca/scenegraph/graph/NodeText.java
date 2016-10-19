@@ -11,8 +11,8 @@ public class NodeText extends ANodeDrawable {
 	private String string;
 	private final BitmapFont font;
 
-	public NodeText(final float size, final String string) {
-		super(Type.TEXT);
+	public NodeText(final float size, final String string, final ApplicationContext ac) {
+		super(Type.TEXT, ac);
 		setString(string);
 		font = new BitmapFont();
 		scale(size/15f);

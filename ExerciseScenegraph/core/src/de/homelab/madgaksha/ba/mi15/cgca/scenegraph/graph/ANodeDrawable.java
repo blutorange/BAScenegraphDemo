@@ -10,8 +10,8 @@ public abstract class ANodeDrawable extends ANode implements IColoredNode, IOrig
 	private final Color color = new Color(Color.WHITE);
 	private final Color cascadedColor = new Color(Color.WHITE);
 
-	public ANodeDrawable(final Type type) {
-		super(type);
+	public ANodeDrawable(final Type type, final ApplicationContext ac) {
+		super(type, ac);
 	}
 
 	@Override

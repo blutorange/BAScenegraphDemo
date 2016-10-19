@@ -12,8 +12,8 @@ public abstract class ANodeGroup extends ANode {
 	protected final List<PrioritizedNode> children = new ArrayList<>();
 	private boolean dirty = true;
 
-	public ANodeGroup(final Type type) {
-		super(type);
+	public ANodeGroup(final Type type, final ApplicationContext ac) {
+		super(type, ac);
 	}
 
 	@Override
@@ -32,7 +32,7 @@ public abstract class ANodeGroup extends ANode {
 	}
 
 	public final ANode addChild(final ANode node, final int traversalPriority, final int position) {
-		ApplicationContext.getInstance().getNodeActionQueue()
+		ac().getNodeActionQueue()
 		.addAction(new NodeActionAddChild(this, node, traversalPriority, position));
 		return this;
 	}
@@ -49,7 +49,7 @@ public abstract class ANodeGroup extends ANode {
 	}
 
 	public final ANode removeChild(final int position) {
-		ApplicationContext.getInstance().getNodeActionQueue().addAction(new NodeActionRemoveChild(this, position));
+		ac().getNodeActionQueue().addAction(new NodeActionRemoveChild(this, position));
 		return this;
 	}
 

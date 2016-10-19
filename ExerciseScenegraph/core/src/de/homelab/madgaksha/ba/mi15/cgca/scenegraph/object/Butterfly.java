@@ -2,14 +2,19 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
 import com.badlogic.gdx.math.Vector3;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ResourceManager;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeDrawable;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeSprite;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
 
 public class Butterfly extends NodeController {
+	public Butterfly(final ApplicationContext ac) {
+		super(ac);
+	}
+
 	ANodeDrawable body;
 	ANodeDrawable head;
 	ANodeDrawable mouth;
@@ -44,16 +49,17 @@ public class Butterfly extends NodeController {
 
 	@Override
 	protected void make() {
-		body = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/bodyG.png"));
-		head = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/headG.png"));
-		mouth = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/mouthG.png"));
-		antennae = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/antennaeG.png"));
-		eyeLeft = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/eyeleftG.png"));
-		eyeRight = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/eyerightG.png"));
-		wingTopLeft = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/wingtopleftG.png"));
-		wingTopRight = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/wingtoprightG.png"));
-		wingBottomLeft = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/wingbottomleftG.png"));
-		wingBottomRight = new NodeSprite(ApplicationContext.getInstance().getResourceManager().sprite("butterfly/wingbottomrightG.png"));
+		final ResourceManager rm = ac().getResourceManager();
+		body = new NodeSprite(rm.sprite("butterfly/bodyG.png"), ac());
+		head = new NodeSprite(rm.sprite("butterfly/headG.png"), ac());
+		mouth = new NodeSprite(rm.sprite("butterfly/mouthG.png"), ac());
+		antennae = new NodeSprite(rm.sprite("butterfly/antennaeG.png"), ac());
+		eyeLeft = new NodeSprite(rm.sprite("butterfly/eyeleftG.png"), ac());
+		eyeRight = new NodeSprite(rm.sprite("butterfly/eyerightG.png"), ac());
+		wingTopLeft = new NodeSprite(rm.sprite("butterfly/wingtopleftG.png"), ac());
+		wingTopRight = new NodeSprite(rm.sprite("butterfly/wingtoprightG.png"), ac());
+		wingBottomLeft = new NodeSprite(rm.sprite("butterfly/wingbottomleftG.png"), ac());
+		wingBottomRight = new NodeSprite(rm.sprite("butterfly/wingbottomrightG.png"), ac());
 
 		antennae.setOrigin(0.49f, 0.05f);
 		antennae.randomHue();
@@ -76,26 +82,26 @@ public class Butterfly extends NodeController {
 		wingBottomRight.setOrigin(0.03f, 0.92f);
 		wingBottomRight.randomHue();
 
-		mAntennae = new NodeTransform();
-		mBody = new NodeTransform();
-		mEyeLeft = new NodeTransform();
-		mEyeRight = new NodeTransform();
-		mHead = new NodeTransform();
-		mMouth = new NodeTransform();
-		mWingTopLeft = new NodeTransform();
-		mWingTopRight= new NodeTransform();
-		mWingBottomLeft = new NodeTransform();
-		mWingBottomRight= new NodeTransform();
+		mAntennae = new NodeTransform(ac());
+		mBody = new NodeTransform(ac());
+		mEyeLeft = new NodeTransform(ac());
+		mEyeRight = new NodeTransform(ac());
+		mHead = new NodeTransform(ac());
+		mMouth = new NodeTransform(ac());
+		mWingTopLeft = new NodeTransform(ac());
+		mWingTopRight= new NodeTransform(ac());
+		mWingBottomLeft = new NodeTransform(ac());
+		mWingBottomRight= new NodeTransform(ac());
 
-		tBody = new NodeTransform();
-		tHead = new NodeTransform(-18f, 111f);
-		tUpperWings = new NodeTransform(-5f, 2f);
-		tLowerWings= new NodeTransform(2f, -34f);
+		tBody = new NodeTransform(ac());
+		tHead = new NodeTransform(-18f, 111f, ac());
+		tUpperWings = new NodeTransform(-5f, 2f, ac());
+		tLowerWings= new NodeTransform(2f, -34f, ac());
 
-		tMouth = new NodeTransform(9f, -43f);
-		tAntennae = new NodeTransform(-13f, 65f);
-		tEyeLeft = new NodeTransform(-46f, 3f);
-		tEyeRight = new NodeTransform(37f, 9f);
+		tMouth = new NodeTransform(9f, -43f, ac());
+		tAntennae = new NodeTransform(-13f, 65f, ac());
+		tEyeLeft = new NodeTransform(-46f, 3f, ac());
+		tEyeRight = new NodeTransform(37f, 9f, ac());
 
 		this.addChild(tBody);
 

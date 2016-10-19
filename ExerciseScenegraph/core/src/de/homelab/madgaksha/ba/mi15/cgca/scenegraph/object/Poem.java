@@ -2,6 +2,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
 import com.badlogic.gdx.math.MathUtils;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.PoemGenerator;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
@@ -9,6 +10,10 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeText;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
 
 public class Poem extends NodeController {
+
+	public Poem(final ApplicationContext ac) {
+		super(ac);
+	}
 
 	private PoemController controller;
 	NodeTransform tText;
@@ -21,8 +26,8 @@ public class Poem extends NodeController {
 
 	@Override
 	protected void make() {
-		text = new NodeText(MathUtils.random(30f,60f), PoemGenerator.lineFromRandomTheme());
-		tText = new NodeTransform();
+		text = new NodeText(MathUtils.random(30f,60f), PoemGenerator.lineFromRandomTheme(), ac());
+		tText = new NodeTransform(ac());
 		addChild(tText);
 		tText.addChild(text);
 		controller = new PoemController(this);
@@ -47,5 +52,4 @@ public class Poem extends NodeController {
 	public float getBottomHeight() {
 		return text.getBottomHeight();
 	}
-
 }

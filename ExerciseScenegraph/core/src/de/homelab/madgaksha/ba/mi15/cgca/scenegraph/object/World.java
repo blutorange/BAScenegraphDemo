@@ -8,14 +8,18 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeColor;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeSprite;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
 
 public class World extends NodeController {
+	public World(final ApplicationContext ac) {
+		super(ac);
+	}
+
 	private WorldController controller;
 	int butterflyCount;
 	Sprite sprite;
@@ -39,19 +43,19 @@ public class World extends NodeController {
 	NodeSprite background5;
 
 	private void makeBackground() {
-		sprite = ApplicationContext.getInstance().getResourceManager().sprite("background.jpg");
+		sprite = ac().getResourceManager().sprite("background.jpg");
 
-		tBackground = new NodeTransform(0, 0f);
-		tBackground1 = new NodeTransform(0, 300f);
-		tBackground2 = new NodeTransform(sprite.getWidth(), 300f);
-		tBackground3 = new NodeTransform(-sprite.getWidth(), 300f);
-		tBackground4 = new NodeTransform(2 * sprite.getWidth(), 300f);
-		tBackground5 = new NodeTransform(-2 * sprite.getWidth(), 300f);
-		background1 = new NodeSprite(sprite);
-		background2 = new NodeSprite(sprite);
-		background3 = new NodeSprite(sprite);
-		background4 = new NodeSprite(sprite);
-		background5 = new NodeSprite(sprite);
+		tBackground = new NodeTransform(0, 0f, ac());
+		tBackground1 = new NodeTransform(0, 300f, ac());
+		tBackground2 = new NodeTransform(sprite.getWidth(), 300f, ac());
+		tBackground3 = new NodeTransform(-sprite.getWidth(), 300f, ac());
+		tBackground4 = new NodeTransform(2 * sprite.getWidth(), 300f, ac());
+		tBackground5 = new NodeTransform(-2 * sprite.getWidth(), 300f, ac());
+		background1 = new NodeSprite(sprite, ac());
+		background2 = new NodeSprite(sprite, ac());
+		background3 = new NodeSprite(sprite, ac());
+		background4 = new NodeSprite(sprite, ac());
+		background5 = new NodeSprite(sprite, ac());
 
 		cWorld.addChild(tBackground, -99);
 
@@ -72,7 +76,7 @@ public class World extends NodeController {
 	protected void make() {
 		butterflyCount = 25;
 
-		cWorld = new NodeColor();
+		cWorld = new NodeColor(ac());
 		addChild(cWorld);
 
 		makeBackground();
@@ -84,15 +88,15 @@ public class World extends NodeController {
 	}
 
 	private void makeMusic() {
-		final Music m = ApplicationContext.getInstance().getResourceManager().music("bgm3.mp3");
+		final Music m = ac().getResourceManager().music("bgm3.mp3");
 		m.setLooping(true);
 		m.setVolume(0.25f);
 		m.play();
 	}
 
 	private void makePlayers() {
-		playerA = new Gnome();
-		playerB = new Gnome();
+		playerA = new Gnome(ac());
+		playerB = new Gnome(ac());
 
 		playerA.setController(new GnomeController.Builder().speed(3f, 18f).gravity(0.3f).build(playerA));
 		playerB.setController(new GnomeController.Builder().left(Keys.A).right(Keys.D).up(Keys.W).down(Keys.S)
@@ -123,7 +127,7 @@ public class World extends NodeController {
 	}
 
 	private Butterfly makeButterfly(final float x) {
-		final Butterfly butterfly = new Butterfly();
+		final Butterfly butterfly = new Butterfly(ac());
 		butterfly.setController(new ButterflyController(butterfly));
 		butterfly.translate(x, 800f);
 		butterflyList.add(butterfly);
@@ -132,7 +136,7 @@ public class World extends NodeController {
 	}
 
 	void makePoem() {
-		final Poem poem = new Poem();
+		final Poem poem = new Poem(ac());
 		final float dx = MathUtils.random(butterflyLeft, butterflyRight);
 		final float dy = MathUtils.random(100f, 400f);
 		poem.translate(dx, dy);

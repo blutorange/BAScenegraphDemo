@@ -5,7 +5,8 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 public abstract class NodeController extends NodeTransform implements IControlledNode {
 	private final String name;
 
-	public NodeController() {
+	public NodeController(final ApplicationContext ac) {
+		super(ac);
 		name = getClass().getSimpleName();
 		make();
 	}

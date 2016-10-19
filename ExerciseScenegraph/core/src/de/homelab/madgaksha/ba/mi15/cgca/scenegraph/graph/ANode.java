@@ -44,12 +44,14 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 	protected final static Matrix4 IDENTITY = new Matrix4();
 	private final static AtomicLong idProvider = new AtomicLong();
 
+	private ApplicationContext applicationContext;
 	private final long id;
 	public final Type type;
 	protected ANode parent = null;
 
-	public ANode(final Type type) {
+	public ANode(final Type type, final ApplicationContext ac) {
 		this.type = type;
+		this.applicationContext = ac;
 		id = idProvider.incrementAndGet();
 	}
 
@@ -98,6 +100,11 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 		if (it != null)
 			it.removeImmediately();
 		return this;
+	}
+
+	public final ApplicationContext ac() {
+		if (applicationContext == null) if (parent != null) applicationContext = parent.ac();
+		return applicationContext;
 	}
 
 	public float getBottomHeight() {

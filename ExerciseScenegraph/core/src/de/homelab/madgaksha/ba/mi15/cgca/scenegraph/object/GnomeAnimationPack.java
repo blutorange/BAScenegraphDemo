@@ -3,8 +3,6 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
-
 public enum GnomeAnimationPack implements Animation<Gnome>{
 	WALKING {
 		@Override
@@ -28,14 +26,14 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 		@Override
 		public void begin(final Gnome gnome, final float time, final float deltaTime) {
 			startTime = time;
-			final Sound s = ApplicationContext.getInstance().getResourceManager().sound("lowsteps.wav");
+			final Sound s = gnome.ac().getResourceManager().sound("lowsteps.wav");
 			final long soundId = s.play();
 			s.setLooping(soundId, true);
 		}
 
 		@Override
 		public void end(final Gnome gnome, final float time, final float deltaTime) {
-			ApplicationContext.getInstance().getResourceManager().sound("lowsteps.wav").stop();
+			gnome.ac().getResourceManager().sound("lowsteps.wav").stop();
 		}
 	},
 
@@ -125,7 +123,7 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 		@Override
 		public void begin(final Gnome gnome, final float time, final float deltaTime) {
 			startTime = time;
-			ApplicationContext.getInstance().getResourceManager().sound("boing.wav").play();
+			gnome.ac().getResourceManager().sound("boing.wav").play();
 		}
 
 		@Override
@@ -162,7 +160,7 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 			oldSmoothing2 = gnome.mRightLeg.getSmoothingFactor();
 			gnome.mLeftLeg.setSmoothingFactor(0.5f).reset();
 			gnome.mRightLeg.setSmoothingFactor(0.5f).reset().rotate(120f);
-			final Sound s = ApplicationContext.getInstance().getResourceManager().sound("steps.wav");
+			final Sound s = gnome.ac().getResourceManager().sound("steps.wav");
 			final long soundId = s.play();
 			s.setLooping(soundId, true);
 		}
@@ -171,7 +169,7 @@ public enum GnomeAnimationPack implements Animation<Gnome>{
 		public void end(final Gnome gnome, final float time, final float deltaTime) {
 			gnome.mLeftLeg.setSmoothingFactor(oldSmoothing1);
 			gnome.mRightLeg.setSmoothingFactor(oldSmoothing2);
-			ApplicationContext.getInstance().getResourceManager().sound("steps.wav").stop();
+			gnome.ac().getResourceManager().sound("steps.wav").stop();
 		}
 	}
 	;

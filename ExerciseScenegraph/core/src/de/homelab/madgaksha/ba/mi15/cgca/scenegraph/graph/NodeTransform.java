@@ -15,24 +15,24 @@ public class NodeTransform extends ANodeGroup {
 	private final Matrix4 smoothTransform = new Matrix4();
 	private float smoothingFactor = 1f;
 
-	public NodeTransform(final Matrix4 transform) {
-		super(Type.TRANSFORM);
+	public NodeTransform(final Matrix4 transform, final ApplicationContext ac) {
+		super(Type.TRANSFORM, ac);
 		if (transform == null)
 			this.transform.idt();
 		else
 			this.transform.set(transform);
 	}
 
-	public NodeTransform() {
-		this(new Matrix4().idt());
+	public NodeTransform(final ApplicationContext ac) {
+		this(new Matrix4().idt(), ac);
 	}
 
-	public NodeTransform(final Vector2 origin) {
-		this(origin.x, origin.y);
+	public NodeTransform(final Vector2 origin, final ApplicationContext ac) {
+		this(origin.x, origin.y, ac);
 	}
 
-	public NodeTransform(final float x, final float y) {
-		this(new Matrix4().translate(x, y, 0));
+	public NodeTransform(final float x, final float y, final ApplicationContext ac) {
+		this(new Matrix4().translate(x, y, 0), ac);
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class NodeTransform extends ANodeGroup {
 	}
 
 	public ANode setSmoothingFactorForThisAndChildren(final float smoothingFactor) {
-		ApplicationContext.getInstance().getNodeActionQueue()
+		ac().getNodeActionQueue()
 		.addAction(new NodeActionSetSmoothingFactorForThisAndChildren(this, smoothingFactor));
 		return this;
 	}
