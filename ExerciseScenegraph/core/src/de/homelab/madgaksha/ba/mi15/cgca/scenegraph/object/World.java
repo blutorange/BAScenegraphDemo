@@ -83,8 +83,6 @@ public class World extends NodeController {
 		makePlayers();
 		makeButterflies();
 		makeMusic();
-		//TEST
-		addChild(new Chain(ac()).translate(0, 400f), 10);
 
 		controller = new WorldController(this);
 	}
@@ -106,6 +104,9 @@ public class World extends NodeController {
 
 		cWorld.addChild(playerA, 1);
 		cWorld.addChild(playerB, 0);
+
+		playerA.setHeadBallAccessory(new Chain(ac()));
+		playerB.setHeadBallAccessory(new Chain(ac()));
 
 		playerA.translate(400f, 0f);
 		playerB.translate(-400f, 0f);

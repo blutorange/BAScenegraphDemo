@@ -257,4 +257,14 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 			throw new NoSuchElementException("Empty iterator does not have children.");
 		}
 	}
+
+	/**
+	 * @param parent Parent that was set.
+	 */
+	protected void onParentSet(final ANode parent) {}
+
+	/**
+	 * @param parent The parent from which this node was removed.
+	 */
+	public void onParentRemoved(final ANodeGroup parent) {}
 }

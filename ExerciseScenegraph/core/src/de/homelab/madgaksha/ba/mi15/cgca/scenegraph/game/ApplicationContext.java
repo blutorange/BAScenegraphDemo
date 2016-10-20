@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeActionQueue;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ActionQueue;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object.World;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.ICommonNodeAction;
@@ -28,7 +28,7 @@ public class ApplicationContext extends ApplicationAdapter {
 	private TraversalVisitor<RuntimeException> traversalVisitor;
 	private ICommonNodeAction<RuntimeException> renderAction;
 	private ICommonNodeAction<RuntimeException> updateAction;
-	private NodeActionQueue nodeActionQueue;
+	private ActionQueue nodeActionQueue;
 	private ResourceManager resourceManager;
 
 	private static ApplicationContext currentInstance;
@@ -41,7 +41,7 @@ public class ApplicationContext extends ApplicationAdapter {
 	public void create () {
 		camera = new OrthographicCamera(1600, 1066);
 		batch = new SpriteBatch();
-		nodeActionQueue = new NodeActionQueue();
+		nodeActionQueue = new ActionQueue();
 		resourceManager = new ResourceManager();
 		stars = resourceManager.particleEffect("stars.eff");
 		stars.setPosition(-800, 500);
@@ -119,7 +119,7 @@ public class ApplicationContext extends ApplicationAdapter {
 		return batch;
 	}
 
-	public NodeActionQueue getNodeActionQueue() {
+	public ActionQueue getNodeActionQueue() {
 		return nodeActionQueue;
 	}
 

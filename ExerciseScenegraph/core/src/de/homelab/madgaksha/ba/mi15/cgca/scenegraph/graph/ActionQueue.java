@@ -3,7 +3,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NodeActionQueue {
+public class ActionQueue {
 	private final static List<INodeAction> queue = new ArrayList<>();
 	public void addAction(final INodeAction action) {
 		queue.add(action);

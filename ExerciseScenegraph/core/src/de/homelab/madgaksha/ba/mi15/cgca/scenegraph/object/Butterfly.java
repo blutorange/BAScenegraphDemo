@@ -1,16 +1,16 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
-import com.badlogic.gdx.math.Vector3;
-
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ResourceManager;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeDrawable;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeFilter;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeSprite;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
 
 public class Butterfly extends NodeController {
+
 	public Butterfly(final ApplicationContext ac) {
 		super(ac);
 	}
@@ -46,6 +46,7 @@ public class Butterfly extends NodeController {
 	NodeTransform mEyeRight;
 
 	private ButterflyController controller;
+	private boolean isCaught;
 
 	@Override
 	protected void make() {
@@ -103,7 +104,12 @@ public class Butterfly extends NodeController {
 		tEyeLeft = new NodeTransform(-46f, 3f, ac());
 		tEyeRight = new NodeTransform(37f, 9f, ac());
 
-		this.addChild(tBody);
+		// Do not process uncaught butterflies that are off-screen.
+		final NodeFilter nodeFilter = new NodeFilter(ac());
+		nodeFilter.setPredicate((t) -> isCaught || Math.abs(inWorldCoordinates().x) <= 2000f);
+
+		this.addChild(nodeFilter);
+		nodeFilter.addChild(tBody);
 
 		tBody.addChild(mBody, 2);
 		tBody.addChild(tHead, 4);
@@ -165,15 +171,16 @@ public class Butterfly extends NodeController {
 
 	public void caught() {
 		controller.caught();
+		isCaught = true;
 	}
 
-	@Override
-	public void renderAction(final ApplicationContext context) {
-		final Vector3 v = inWorldCoordinates();
-		if (v.x>=-2000f && v.x<=2000f) {
-			super.renderAction(context);
-		}
-	}
+	//	@Override
+	//	public void renderAction(final ApplicationContext context) {
+	//		final Vector3 v = inWorldCoordinates();
+	//		if (v.x>=-2000f && v.x<=2000f) {
+	//			super.renderAction(context);
+	//		}
+	//	}
 
 	@Override
 	public Controller getController() {

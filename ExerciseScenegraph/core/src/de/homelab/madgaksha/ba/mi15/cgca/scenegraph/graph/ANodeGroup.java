@@ -40,6 +40,7 @@ public abstract class ANodeGroup extends ANode {
 	public void addChildImmediately(final ANode node, final int traversalPriority, final int position) {
 		children.add(position, new PrioritizedNode(node, traversalPriority));
 		node.parent = this;
+		node.onParentSet(this);
 		dirty = true;
 	}
 
@@ -56,7 +57,9 @@ public abstract class ANodeGroup extends ANode {
 	public final void removeChildImmediately(final int index) {
 		if (index >= children.size())
 			return;
-		children.get(index).node.parent = null;
+		final ANode c = children.get(index).node;
+		if (c.parent != null) c.onParentRemoved(this);
+		c.parent = null;
 		children.remove(index);
 	}
 

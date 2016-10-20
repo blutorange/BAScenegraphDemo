@@ -3,6 +3,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ResourceManager;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeDrawable;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeColor;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
@@ -36,6 +37,7 @@ public class Gnome extends NodeController {
 	NodeTransform tRightArm;
 	NodeTransform tLeftLeg;
 	NodeTransform tRightLeg;
+	NodeTransform tHeadBall;
 
 	NodeTransform mHead;
 	NodeTransform mTorso;
@@ -44,6 +46,7 @@ public class Gnome extends NodeController {
 	NodeTransform mRightArm;
 	NodeTransform mLeftLeg;
 	NodeTransform mRightLeg;
+
 
 	@Override
 	protected void make() {
@@ -72,6 +75,7 @@ public class Gnome extends NodeController {
 		tRightArm = new NodeTransform(28, 70, ac());
 		tLeftLeg = new NodeTransform(-18, -70, ac());
 		tRightLeg = new NodeTransform(30, -70, ac());
+		tHeadBall = new NodeTransform(-117f, 56f, ac());
 
 		mHead = new NodeTransform(ac());
 		mScore = new NodeTransform(ac());
@@ -80,6 +84,7 @@ public class Gnome extends NodeController {
 		mLeftLeg = new NodeTransform(ac());
 		mRightLeg = new NodeTransform(ac());
 		mTorso = new NodeTransform(ac());
+
 
 		addChild(color);
 		color.addChild(tAll);
@@ -92,7 +97,8 @@ public class Gnome extends NodeController {
 		tAll.addChild(tLeftArm, 1);
 
 		tHead.addChild(mHead, 1);
-		mHead.addChild(tScore, 2);
+		mHead.addChild(tScore, 3);
+		mHead.addChild(tHeadBall, -5);
 
 		tScore.addChild(mScore);
 		tLeftLeg.addChild(mLeftLeg);
@@ -148,5 +154,10 @@ public class Gnome extends NodeController {
 	@Override
 	public Controller getController() {
 		return controller;
+	}
+
+	public Gnome setHeadBallAccessory(final ANode accessory) {
+		tHeadBall.addChild(accessory);
+		return this;
 	}
 }
