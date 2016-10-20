@@ -90,7 +90,7 @@ public class World extends NodeController {
 	private void makeMusic() {
 		final Music m = ac().getResourceManager().music("bgm3.mp3");
 		m.setLooping(true);
-		m.setVolume(0.25f);
+		m.setVolume(0.20f);
 		m.play();
 	}
 

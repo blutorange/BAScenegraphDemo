@@ -41,6 +41,7 @@ public class Chain extends NodeController {
 		final ANodeGroup node = new NodeTransform(ac());
 		makeChainLinks(node, sprite);
 		addChild(node);
+		setSmoothingFactorForThisAndChildren(0.1f);
 	}
 
 	private void makeChainLinks(ANodeGroup node, final Sprite sprite) {
@@ -100,7 +101,7 @@ public class Chain extends NodeController {
 		}
 		public void simulate(final float deltaTime, final float offset) {
 			velocity += deltaTime * acceleration;
-			angle = angle + deltaTime * velocity;
+			angle += deltaTime * velocity;
 			node.reset().rotate(angle-offset);
 		}
 	}

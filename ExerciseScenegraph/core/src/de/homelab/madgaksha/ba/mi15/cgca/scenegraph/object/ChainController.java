@@ -13,7 +13,7 @@ public class ChainController implements Controller {
 	private final float gravity;
 	private final float friction;
 	private final float suspensionAcceleration;
-	private final float angleClip = 0.75f;
+	private final float angleClip = 1.0f;
 	private final Chain chain;
 
 	private final Vector2 tmp = new Vector2();
@@ -56,7 +56,7 @@ public class ChainController implements Controller {
 			angle = signum * (tmp.set(down.x,down.y).angle()+90f);
 			// Acceleration
 			final float ax = (ws.x-2f*susNodeP.x+susNodePP.x)/(deltaTime*deltaTime);
-			accel = -suspensionAcceleration*ax;
+			accel = MathUtils.clamp(-suspensionAcceleration*ax,-500000f,500000f);
 			//
 			susNodePP.set(susNodeP);
 			susNodeP.set(ws.x,ws.y,ws.z);
