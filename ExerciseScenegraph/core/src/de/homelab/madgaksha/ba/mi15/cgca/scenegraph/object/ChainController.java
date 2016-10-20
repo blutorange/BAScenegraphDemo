@@ -14,6 +14,7 @@ public class ChainController implements Controller {
 	private final float friction;
 	private final float suspensionAcceleration;
 	private final float angleClip = 1.0f;
+	private float imax = 0f;
 	private final Chain chain;
 
 	private final Vector2 tmp = new Vector2();
@@ -62,6 +63,8 @@ public class ChainController implements Controller {
 			susNodeP.set(ws.x,ws.y,ws.z);
 		}
 		final float invlen = accel/len;
+		final float scale = 0.005f;
+		imax = len*0.15f*(1f+MathUtils.sinDeg(chain.ac().getTime()*10f));
 		for (int i = 0; i < len; ++i) {
 			final ChainLinkModel model = chain.nodes.get(i);
 			model.acceleration =
@@ -70,6 +73,7 @@ public class ChainController implements Controller {
 					+ i*invlen*MathUtils.cosDeg(model.angle)
 					;
 			model.simulate(deltaTime, offset);
+			model.node.scale(1f+(i<imax ? scale : -scale));
 			offset = model.angle;
 		}
 		ChainLinkModel last = chain.nodes.get(0);
