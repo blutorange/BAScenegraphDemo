@@ -21,6 +21,7 @@ public class GnomeController implements Controller {
 
 	private Animation<Gnome> animationMode = GnomeAnimationPack.STANDING;
 	private final Gnome gnome;
+	@SuppressWarnings("unused")
 	private final int left, right, down, up, jump, modifier, crouch;
 	private float speedX;
 	private float speedY;
