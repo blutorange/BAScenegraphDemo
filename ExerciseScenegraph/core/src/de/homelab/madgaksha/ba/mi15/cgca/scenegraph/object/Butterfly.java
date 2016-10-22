@@ -106,7 +106,7 @@ public class Butterfly extends NodeController {
 
 		// Do not process uncaught butterflies that are off-screen.
 		final NodeFilter nodeFilter = new NodeFilter(ac());
-		nodeFilter.setPredicate((t) -> isCaught || Math.abs(inWorldCoordinates().x) <= 2000f);
+		nodeFilter.setPredicate((t) -> isCaught || Math.abs(inWorldCoordinates().x-ac().cameraInWorldCoordinates().x) <= 2000f);
 
 		this.addChild(nodeFilter);
 		nodeFilter.addChild(tBody);

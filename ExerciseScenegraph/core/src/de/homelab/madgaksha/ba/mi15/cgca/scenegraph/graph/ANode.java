@@ -38,7 +38,9 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 		/**
 		 * A node with only a single child that may change dynamically depending on some condition.
 		 */
-		FILTER;
+		FILTER,
+		MODEL,
+		CAMERA;
 	}
 
 	protected final static Matrix4 IDENTITY = new Matrix4();
@@ -61,13 +63,13 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 	 * Some common action a node needs to do on each update. Should not recurse.
 	 * Called in the correct traversal order.
 	 */
-	public abstract void updateAction(ApplicationContext context);
+	public abstract void updateAction();
 
 	/**
 	 * Some common action a node needs to each time it is rendered. Should not
 	 * recurse. Called in the correct traversal order.
 	 */
-	public abstract void renderAction(ApplicationContext context);
+	public abstract void renderAction();
 
 	/**
 	 * Prüft, ob dieser Knoten mit einem anderen in Berührung steht. Dabei
@@ -142,11 +144,19 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 	}
 
 	public final Vector3 inWorldCoordinates() {
-		return inWorldCoordinates(0f, 0f);
+		return inWorldCoordinates(new Vector3(), 0f, 0f);
+	}
+
+	public final Vector3 inWorldCoordinates(final Vector3 result) {
+		return inWorldCoordinates(result, 0f, 0f);
 	}
 
 	public final Vector3 inWorldCoordinates(final float x, final float y) {
-		return new Vector3(x, y, 0f).mul(getCascadedTransform());
+		return inWorldCoordinates(new Vector3(), x, y);
+	}
+
+	public Vector3 inWorldCoordinates(final Vector3 result, final float x, final float y) {
+		return result.set(x, y, 0f).mul(getCascadedTransform());
 	}
 
 	/**

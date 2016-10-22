@@ -16,9 +16,9 @@ public abstract class NodeController extends NodeTransform implements IControlle
 	}
 
 	@Override
-	public final void updateAction(final ApplicationContext context) {
-		controllerAction(context);
-		super.updateAction(context);
+	public final void updateAction() {
+		controllerAction(ac());
+		super.updateAction();
 	}
 
 	protected abstract void make();

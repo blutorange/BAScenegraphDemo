@@ -9,28 +9,33 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector3;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ActionQueue;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeCamera;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object.World;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.ICommonNodeAction;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.TraversalVisitor;
 
 public class ApplicationContext extends ApplicationAdapter {
-	private final Matrix4 oldTransform = new Matrix4();
 	private SpriteBatch batch;
+	private ModelBatch modelBatch;
 	private ParticleEffect stars;
 	private NodeController rootNode;
-	private Camera camera;
+	private Camera defaultCamera;
 	private float time, deltaTime;
 	private TraversalVisitor<RuntimeException> traversalVisitor;
 	private ICommonNodeAction<RuntimeException> renderAction;
 	private ICommonNodeAction<RuntimeException> updateAction;
 	private ActionQueue nodeActionQueue;
 	private ResourceManager resourceManager;
+	private NodeCamera cameraNode;
+	private final Vector3 cameraInWorldCoordinates = new Vector3();
 
 	private static ApplicationContext currentInstance;
 
@@ -40,8 +45,9 @@ public class ApplicationContext extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		camera = new OrthographicCamera(1600, 1066);
+		defaultCamera = new OrthographicCamera(1600, 1066);
 		batch = new SpriteBatch();
+		modelBatch = new ModelBatch();
 		nodeActionQueue = new ActionQueue();
 		resourceManager = new ResourceManager();
 		stars = resourceManager.particleEffect("stars.eff");
@@ -64,24 +70,34 @@ public class ApplicationContext extends ApplicationAdapter {
 
 		nodeActionQueue.perform();
 
+		if (cameraNode != null) cameraNode.inWorldCoordinates(cameraInWorldCoordinates);
+		else cameraInWorldCoordinates.setZero();
 		rootNode.accept(traversalVisitor, updateAction);
+		stars.update(deltaTime);
 
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		oldTransform.set(batch.getTransformMatrix());
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
+		if (cameraNode != null)
+			cameraNode.updateBatch(batch);
+		else {
+			defaultCamera.update();
+			batch.setProjectionMatrix(defaultCamera.combined);
+		}
 		batch.begin();
 		rootNode.accept(traversalVisitor, renderAction);
-		batch.setTransformMatrix(oldTransform);
-		stars.draw(batch, deltaTime);
+		drawStars();
+		batch.end();
+		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) Gdx.app.exit();
+	}
+
+	private void drawStars() {
+		batch.setTransformMatrix(batch.getTransformMatrix().idt().translate(cameraNode.getCamera().position));
+		stars.draw(batch);
 		if (stars.isComplete()) {
 			stars.reset();
 			stars.start();
 		}
-		batch.end();
-		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) Gdx.app.exit();
 	}
 
 	@Override
@@ -94,7 +110,7 @@ public class ApplicationContext extends ApplicationAdapter {
 		return new ICommonNodeAction<RuntimeException>() {
 			@Override
 			public void visit(final ANode node) throws RuntimeException {
-				node.updateAction(ApplicationContext.this);
+				node.updateAction();
 			}
 		};
 	}
@@ -103,7 +119,7 @@ public class ApplicationContext extends ApplicationAdapter {
 		return new ICommonNodeAction<RuntimeException>() {
 			@Override
 			public void visit(final ANode node) throws RuntimeException {
-				node.renderAction(ApplicationContext.this);
+				node.renderAction();
 			}
 		};
 	}
@@ -128,7 +144,36 @@ public class ApplicationContext extends ApplicationAdapter {
 		return resourceManager;
 	}
 
+
 	public static ApplicationContext getInstance() {
 		return currentInstance;
+	}
+
+	public ModelBatch getModelBatch() {
+		return modelBatch;
+	}
+
+	public void setCameraNode(final NodeCamera cameraNode) {
+		if (cameraNode != null)
+			this.cameraNode = cameraNode;
+	}
+
+	public Vector3 cameraInWorldCoordinates() {
+		return cameraInWorldCoordinates;
+	}
+
+	public Matrix4 getCameraView() {
+		return (cameraNode != null ? cameraNode.getCamera() : defaultCamera).view;
+	}
+
+	public Vector3 getCameraPosition() {
+		return (cameraNode != null ? cameraNode.getCamera() : defaultCamera).position;
+	}
+
+	public void smoothSwitchCameraNode(final NodeCamera to) {
+		if (cameraNode != null && to != cameraNode) {
+			to.smoothSwitch(cameraNode);
+		}
+		setCameraNode(to);
 	}
 }

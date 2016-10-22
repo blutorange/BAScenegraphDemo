@@ -53,14 +53,13 @@ public class NodeSprite extends ANodeDrawable {
 	}
 
 	@Override
-	public void renderAction(final ApplicationContext context) {
-		applyBatch(context);
+	public void renderAction() {
 		sprite.setColor(getCascadedColor());
 		final float x = sprite.getX();
 		final float y = sprite.getY();
 		sprite.setOrigin(sprite.getWidth() * getOriginX(), sprite.getHeight() * (getOriginY()));
 		sprite.translate(-sprite.getWidth() * getOriginX(), -sprite.getHeight() * (getOriginY()));
-		sprite.draw(context.getBatch());
+		sprite.draw(applyBatch());
 		sprite.setPosition(x, y);
 	}
 

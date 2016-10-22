@@ -22,7 +22,7 @@ public class ChainController implements Controller {
 	private final Vector3 susNodePP= new Vector3();
 
 	public ChainController(final Chain chain) {
-		this(chain, 400f, 0.6f, 0.4f, 10f);
+		this(chain, 800f, 0.6f, 0.3f, 10f);
 	}
 
 	public ChainController(final Chain chain, final float gravity, final float friction, final float suspensionAcceleration, final float angleClip) {
@@ -64,7 +64,7 @@ public class ChainController implements Controller {
 			susNodeP.set(ws.x,ws.y,ws.z);
 		}
 		final float invlen = accel/len;
-		final float scale = 0.005f;
+		final float scale = 0.030f;
 		imax = len*0.15f*(1f+MathUtils.sinDeg(chain.ac().getTime()*10f));
 		for (int i = 0; i < len; ++i) {
 			final ChainLinkModel model = chain.nodes.get(i);

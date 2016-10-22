@@ -5,52 +5,35 @@ import java.util.Iterator;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector3;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 
 public class WorldController implements Controller {
 
 	private float timePoem;
-	private final Matrix4 isTransform;
-	private final Matrix4 targetTransform;
-	private NodeController cameraTarget;
 	private final World world;
 
 	public WorldController(final World world) {
 		if (world == null)
 			throw new IllegalArgumentException("World cannot be null.");
 		this.world = world;
-		cameraTarget = world.playerA;
-		isTransform = new Matrix4();
-		targetTransform = new Matrix4();
+		world.ac().setCameraNode(world.playerA.camera);
 	}
 
 	@Override
 	public void update(final float time, final float deltaTime) {
-		// Kamera auf Spieler 1/2 setzen.
+		// Switch camera between player A and B
 		if (Gdx.input.isKeyJustPressed(Keys.NUM_1))
-			cameraTarget = world.playerA;
+			world.ac().smoothSwitchCameraNode(world.playerA.camera);
 		else if (Gdx.input.isKeyJustPressed(Keys.NUM_2))
-			cameraTarget = world.playerB;
-
-		// Kamera langsam mit Spieler mitlaufen lassen.
-		targetTransform.set(cameraTarget.getTransform()).inv();
-		isTransform.lerp(targetTransform, 0.035f);
-		world.getTransform().set(isTransform);
+			world.ac().smoothSwitchCameraNode(world.playerB.camera);
 
 		// Hintergrund periodisch verschieben, sodass er endlos erscheint.
-		final float x = -new Vector3().mul(isTransform).x;
-		final float dx = world.sprite.getWidth() * ((int) (x / world.sprite.getWidth()));
-		world.tBackground.reset().translate(dx, 70f);
-
-		// Boden nach unten.
-		world.translate(0, -150f);
+		final float x = world.ac().getCameraPosition().x;
+		world.mBackground.reset().translate(world.sprite.getWidth() * ((int) (x / world.sprite.getWidth())), 0f);
 
 		// Nacht werden lassen, je weiter man nach rechts geht.
-		final float darknessFactor = Math.max(0.02f, 1f - x / (world.sprite.getWidth() * 40f));
+		final float darknessFactor = Math.max(0.03f, 1f - x / (x < 0f ? -world.butterflyLeft : world.butterflyRight));
 		world.cWorld.setColor(darknessFactor, darknessFactor * 0.7f, darknessFactor * 0.4f);
 
 		// Kollision Schmetterling-Spieler

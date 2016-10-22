@@ -5,6 +5,7 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ResourceManager;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeDrawable;
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeCamera;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeColor;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeSprite;
@@ -38,6 +39,7 @@ public class Gnome extends NodeController {
 	NodeTransform tLeftLeg;
 	NodeTransform tRightLeg;
 	NodeTransform tHeadBall;
+	NodeTransform tCamera;
 
 	NodeTransform mHead;
 	NodeTransform mTorso;
@@ -47,6 +49,7 @@ public class Gnome extends NodeController {
 	NodeTransform mLeftLeg;
 	NodeTransform mRightLeg;
 
+	NodeCamera camera;
 
 	@Override
 	protected void make() {
@@ -54,6 +57,7 @@ public class Gnome extends NodeController {
 
 		color = new NodeColor(ac());
 
+		camera = new NodeCamera(1600, 1066, ac());
 		torso = new NodeSprite(rm.sprite("gnome/torso.png"), ac());
 		head = new NodeSprite(rm.sprite("gnome/head.png"), ac());
 		score = new NodeText(60,"0", ac());
@@ -76,6 +80,7 @@ public class Gnome extends NodeController {
 		tLeftLeg = new NodeTransform(-18, -70, ac());
 		tRightLeg = new NodeTransform(30, -70, ac());
 		tHeadBall = new NodeTransform(-117f, 56f, ac());
+		tCamera = new NodeTransform(0f, +160f, ac());
 
 		mHead = new NodeTransform(ac());
 		mScore = new NodeTransform(ac());
@@ -85,8 +90,8 @@ public class Gnome extends NodeController {
 		mRightLeg = new NodeTransform(ac());
 		mTorso = new NodeTransform(ac());
 
-
 		addChild(color);
+		addChild(tCamera);
 		color.addChild(tAll);
 
 		tAll.addChild(mTorso);
@@ -106,6 +111,7 @@ public class Gnome extends NodeController {
 		tRightArm.addChild(mRightArm);
 		tLeftArm.addChild(mLeftArm);
 
+		tCamera.addChild(camera);
 		mHead.addChild(head);
 		mLeftArm.addChild(leftArm);
 		mLeftLeg.addChild(leftLeg);

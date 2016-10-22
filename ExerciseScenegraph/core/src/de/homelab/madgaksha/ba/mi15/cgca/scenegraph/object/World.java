@@ -31,6 +31,7 @@ public class World extends NodeController {
 
 	NodeColor cWorld;
 	NodeTransform tBackground;
+	NodeTransform mBackground;
 	NodeTransform tBackground1;
 	NodeTransform tBackground2;
 	NodeTransform tBackground3;
@@ -45,7 +46,9 @@ public class World extends NodeController {
 	private void makeBackground() {
 		sprite = ac().getResourceManager().sprite("background.jpg");
 
-		tBackground = new NodeTransform(0, 0f, ac());
+		tBackground = new NodeTransform(0, 80f, ac());
+		mBackground = new NodeTransform(ac());
+
 		tBackground1 = new NodeTransform(0, 300f, ac());
 		tBackground2 = new NodeTransform(sprite.getWidth(), 300f, ac());
 		tBackground3 = new NodeTransform(-sprite.getWidth(), 300f, ac());
@@ -58,12 +61,13 @@ public class World extends NodeController {
 		background5 = new NodeSprite(sprite, ac());
 
 		cWorld.addChild(tBackground, -99);
+		tBackground.addChild(mBackground);
 
-		tBackground.addChild(tBackground1);
-		tBackground.addChild(tBackground2);
-		tBackground.addChild(tBackground3);
-		tBackground.addChild(tBackground4);
-		tBackground.addChild(tBackground5);
+		mBackground.addChild(tBackground1);
+		mBackground.addChild(tBackground2);
+		mBackground.addChild(tBackground3);
+		mBackground.addChild(tBackground4);
+		mBackground.addChild(tBackground5);
 
 		tBackground1.addChild(background1);
 		tBackground2.addChild(background2);
@@ -116,8 +120,8 @@ public class World extends NodeController {
 		butterflyList = new ArrayList<>();
 
 		float x = 0f;
-		final float rangeMin = 5f;
-		final float rangeMax = 20f;
+		final float rangeMin = 10f;
+		final float rangeMax = 30f;
 		for (int i = 0; i < butterflyCount; ++i, x += MathUtils.random(rangeMin * 400f, rangeMax * 400f)) {
 			makeButterfly(x);
 		}

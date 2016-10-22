@@ -14,10 +14,10 @@ public class NodeGroup extends ANodeGroup {
 	}
 
 	@Override
-	public void updateAction(final ApplicationContext context) {
+	public void updateAction() {
 	}
 
 	@Override
-	public void renderAction(final ApplicationContext context) {
+	public void renderAction() {
 	}
 }

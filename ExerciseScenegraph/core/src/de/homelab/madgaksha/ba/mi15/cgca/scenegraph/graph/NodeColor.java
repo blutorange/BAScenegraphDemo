@@ -25,7 +25,7 @@ public class NodeColor extends ANodeGroup implements IColoredNode {
 	}
 
 	@Override
-	public void updateAction(final ApplicationContext context) {
+	public void updateAction() {
 		cascadeColor();
 	}
 
@@ -35,6 +35,6 @@ public class NodeColor extends ANodeGroup implements IColoredNode {
 	}
 
 	@Override
-	public void renderAction(final ApplicationContext context) {
+	public void renderAction() {
 	}
 }

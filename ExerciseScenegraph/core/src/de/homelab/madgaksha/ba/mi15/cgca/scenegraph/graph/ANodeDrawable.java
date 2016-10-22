@@ -1,6 +1,7 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
@@ -30,11 +31,12 @@ public abstract class ANodeDrawable extends ANode implements IColoredNode, IOrig
 	}
 
 	@Override
-	public void updateAction(final ApplicationContext context) {
+	public void updateAction() {
 		cascadeColor();
 	}
 
-	protected final void applyBatch(final ApplicationContext context) {
-		context.getBatch().setTransformMatrix(getCascadedTransform());
+	protected final Batch applyBatch() {
+		ac().getBatch().setTransformMatrix(getCascadedTransform());
+		return ac().getBatch();
 	}
 }

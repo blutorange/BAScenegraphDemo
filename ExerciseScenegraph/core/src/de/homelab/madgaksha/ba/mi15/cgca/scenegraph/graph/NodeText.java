@@ -1,7 +1,6 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.utils.Align;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
@@ -10,12 +9,13 @@ public class NodeText extends ANodeDrawable {
 
 	private String string;
 	private final BitmapFont font;
+	private final float size;
 
 	public NodeText(final float size, final String string, final ApplicationContext ac) {
 		super(Type.TEXT, ac);
+		this.size = size;
 		setString(string);
 		font = new BitmapFont();
-		scale(size/15f);
 	}
 
 	public final NodeText setString(final String string) {
@@ -54,13 +54,14 @@ public class NodeText extends ANodeDrawable {
 	}
 
 	@Override
-	public void updateAction(final ApplicationContext context) {
+	public String toString() {
+		return super.toString() + "(" + string + ")";
 	}
 
 	@Override
-	public void renderAction(final ApplicationContext context) {
-		applyBatch(context);
+	public void renderAction() {
 		font.setColor(getCascadedColor());
-		font.draw(context.getBatch(), string, 0, 0, 999999, Align.center, false);
+		font.getData().scaleX = font.getData().scaleY = size/15f;
+		font.draw(applyBatch(), string, 0, 0);
 	}
 }

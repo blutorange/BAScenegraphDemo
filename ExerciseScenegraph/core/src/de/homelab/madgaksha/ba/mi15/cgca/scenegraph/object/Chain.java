@@ -47,7 +47,7 @@ public class Chain extends NodeController {
 	private void makeChainLinks(ANodeGroup node, final Sprite sprite) {
 		float hue = MathUtils.random(0f,1f);
 		for (int i = 0; i < chainLinkCount; ++i) {
-			final NodeTransform t = new NodeTransform(0f, i == 0 ? 0f : -6f, ac());
+			final NodeTransform t = new NodeTransform(0f, i == 0 ? 0f : -4f, ac());
 			final NodeTransform r = new NodeTransform(ac());
 			final ANodeDrawable d = new NodeSprite(sprite, ac());
 			final ChainLinkModel m = new ChainLinkModel(r, i*0f/chainLinkCount);

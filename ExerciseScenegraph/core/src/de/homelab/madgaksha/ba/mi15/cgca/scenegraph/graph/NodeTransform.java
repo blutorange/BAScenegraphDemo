@@ -71,14 +71,14 @@ public class NodeTransform extends ANodeGroup {
 	}
 
 	@Override
-	public void updateAction(final ApplicationContext context) {
+	public void updateAction() {
 		if (smoothingFactor != 1f) smoothTransform.lerp(transform, smoothingFactor);
 		else smoothTransform.set(transform);
 		cascadedTransform.set(parent != null ? parent.getCascadedTransform() : IDENTITY).mul(smoothTransform);
 	}
 
 	@Override
-	public void renderAction(final ApplicationContext context) {
+	public void renderAction() {
 	}
 
 	@Override
