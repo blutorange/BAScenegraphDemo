@@ -13,7 +13,7 @@ public class ChainController implements Controller {
 	private final float gravity;
 	private final float friction;
 	private final float suspensionAcceleration;
-	private final float angleClip = 1.0f;
+	private final float angleClip;
 	private float imax = 0f;
 	private final Chain chain;
 
@@ -22,14 +22,15 @@ public class ChainController implements Controller {
 	private final Vector3 susNodePP= new Vector3();
 
 	public ChainController(final Chain chain) {
-		this(chain, 2000f, 0.3f, 0.1f);
+		this(chain, 400f, 0.6f, 0.4f, 10f);
 	}
 
-	public ChainController(final Chain chain, final float gravity, final float friction, final float suspensionAcceleration) {
+	public ChainController(final Chain chain, final float gravity, final float friction, final float suspensionAcceleration, final float angleClip) {
 		this.chain = chain;
 		this.gravity = gravity;
 		this.friction = friction;
 		this.suspensionAcceleration = suspensionAcceleration;
+		this.angleClip = angleClip;
 	}
 
 	@Override

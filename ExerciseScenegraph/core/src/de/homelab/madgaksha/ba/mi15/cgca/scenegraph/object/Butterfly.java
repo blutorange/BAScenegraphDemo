@@ -129,7 +129,7 @@ public class Butterfly extends NodeController {
 		tLowerWings.addChild(mWingBottomLeft, 0);
 		tLowerWings.addChild(mWingBottomRight, 0);
 
-		tMouth.addChild(mMouth, 5);
+		tMouth.addChild(mMouth);
 		tAntennae.addChild(mAntennae, 3);
 		tEyeLeft.addChild(mEyeLeft, 6);
 		tEyeRight.addChild(mEyeRight, 6);
@@ -138,6 +138,7 @@ public class Butterfly extends NodeController {
 		mBody.addChild(body);
 		mEyeLeft.addChild(eyeLeft);
 		mEyeRight.addChild(eyeRight);
+		mMouth.addChild(mouth);
 		mWingTopLeft.addChild(wingTopLeft);
 		mWingTopRight.addChild(wingTopRight);
 		mWingBottomLeft.addChild(wingBottomLeft);
@@ -173,14 +174,6 @@ public class Butterfly extends NodeController {
 		controller.caught();
 		isCaught = true;
 	}
-
-	//	@Override
-	//	public void renderAction(final ApplicationContext context) {
-	//		final Vector3 v = inWorldCoordinates();
-	//		if (v.x>=-2000f && v.x<=2000f) {
-	//			super.renderAction(context);
-	//		}
-	//	}
 
 	@Override
 	public Controller getController() {

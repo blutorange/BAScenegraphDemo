@@ -19,7 +19,7 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeTransform;
 public class Chain extends NodeController {
 
 	private ChainController controller;
-	private final int chainLinkCount = 500;
+	private final int chainLinkCount = 80;
 	/** Maximum absolute value of the angle of any chain relative to the previous one. */
 	List<ChainLinkModel> nodes;
 
@@ -47,14 +47,14 @@ public class Chain extends NodeController {
 	private void makeChainLinks(ANodeGroup node, final Sprite sprite) {
 		float hue = MathUtils.random(0f,1f);
 		for (int i = 0; i < chainLinkCount; ++i) {
-			final NodeTransform t = new NodeTransform(0f, i == 0 ? 0f : -1f, ac());
+			final NodeTransform t = new NodeTransform(0f, i == 0 ? 0f : -6f, ac());
 			final NodeTransform r = new NodeTransform(ac());
 			final ANodeDrawable d = new NodeSprite(sprite, ac());
 			final ChainLinkModel m = new ChainLinkModel(r, i*0f/chainLinkCount);
 
 			d.setOrigin(0.50f, 0.50f);
 			d.setHsb(hue, 0.8f, 0.8f);
-			hue += MathUtils.random(0.001f,0.005f);
+			hue += MathUtils.random(0.006f,0.030f);
 
 			node.addChild(t, i);
 			t.addChild(r);

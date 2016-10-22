@@ -59,11 +59,11 @@ public class World extends NodeController {
 
 		cWorld.addChild(tBackground, -99);
 
-		tBackground.addChild(tBackground1, -99);
-		tBackground.addChild(tBackground2, -99);
-		tBackground.addChild(tBackground3, -99);
-		tBackground.addChild(tBackground4, -99);
-		tBackground.addChild(tBackground5, -99);
+		tBackground.addChild(tBackground1);
+		tBackground.addChild(tBackground2);
+		tBackground.addChild(tBackground3);
+		tBackground.addChild(tBackground4);
+		tBackground.addChild(tBackground5);
 
 		tBackground1.addChild(background1);
 		tBackground2.addChild(background2);
@@ -102,8 +102,8 @@ public class World extends NodeController {
 		playerB.setController(new GnomeController.Builder().left(Keys.A).right(Keys.D).up(Keys.W).down(Keys.S)
 				.speed(3f, 18f).gravity(0.3f).jump(Keys.Q).modifier(Keys.SHIFT_LEFT).crouch(Keys.X).build(playerB));
 
-		cWorld.addChild(playerA, 1);
-		cWorld.addChild(playerB, 0);
+		cWorld.addChild(playerA, 11);
+		cWorld.addChild(playerB, 10);
 
 		playerA.setHeadBallAccessory(new Chain(ac()));
 		playerB.setHeadBallAccessory(new Chain(ac()));
@@ -134,7 +134,7 @@ public class World extends NodeController {
 		butterfly.setController(new ButterflyController(butterfly));
 		butterfly.translate(x, 800f);
 		butterflyList.add(butterfly);
-		cWorld.addChild(butterfly, 2);
+		cWorld.addChild(butterfly, 20);
 		return butterfly;
 	}
 

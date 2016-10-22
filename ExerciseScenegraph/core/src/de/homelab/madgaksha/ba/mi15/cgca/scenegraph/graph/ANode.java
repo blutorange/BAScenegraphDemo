@@ -160,7 +160,7 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 
 	protected final INodeIterator iteratorForParentAtThisPosition() {
 		if (parent == null) return null;
-		final INodeIterator it = iterator();
+		final INodeIterator it = parent.iterator();
 		while (it.hasNext()) {
 			if (this == it.next().node) {
 				return it;

@@ -44,12 +44,12 @@ public class ButterflyController implements Controller{
 			if (catchTime > 10f) {
 				if (!renderPriorityChanged) {
 					renderPriorityChanged  = true;
-					butterfly.setTraversalPriority(-2);
+					butterfly.setTraversalPriority(5);
 				}
 				butterfly.scale(0.996f);
 			}
-			if (catchTime > 15f) {
-				if (flap != null) flap.stop(flapId);
+			if (flap != null && catchTime > 15f) {
+				flap.stop(flapId);
 			}
 			if (catchTime > 35f) {
 				butterfly.detach();

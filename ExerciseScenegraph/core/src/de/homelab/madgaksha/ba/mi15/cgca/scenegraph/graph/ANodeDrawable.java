@@ -34,7 +34,7 @@ public abstract class ANodeDrawable extends ANode implements IColoredNode, IOrig
 		cascadeColor();
 	}
 
-	protected void applyBatch(final ApplicationContext context) {
+	protected final void applyBatch(final ApplicationContext context) {
 		context.getBatch().setTransformMatrix(getCascadedTransform());
 	}
 }

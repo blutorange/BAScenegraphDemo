@@ -11,7 +11,7 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.PrioritizedNode;
 
 public class TraversalVisitor<E extends Throwable> implements INodeVisitor <Void , ICommonNodeAction<E>, E>{
 
-	private Void traverse(final ANode node, final ICommonNodeAction<E> data) throws E{
+	private Void traverse(final ANode node, final ICommonNodeAction<E> data) throws E {
 		for (final PrioritizedNode child : node) child.node.accept(this, data);
 		return null;
 	}

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.List;
-import java.util.NoSuchElementException;
+
+import com.badlogic.gdx.utils.Pool.Poolable;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 
@@ -107,12 +108,19 @@ public abstract class ANodeGroup extends ANode {
 		}
 	}
 
-	private static class IteratorNodeGroup implements INodeIterator {
-		private final ANodeGroup node;
-		private int pos = 0;
-		private final int len;
+	public static class IteratorNodeGroup implements INodeIterator, Poolable {
+		private ANodeGroup node;
+		private int pos;
+		private int len;
 
 		public IteratorNodeGroup(final ANodeGroup node) {
+			setNode(node);
+		}
+
+		public IteratorNodeGroup() {
+		}
+
+		public void setNode(final ANodeGroup node) {
 			this.node = node;
 			this.len = node.children.size();
 		}
@@ -124,40 +132,52 @@ public abstract class ANodeGroup extends ANode {
 
 		@Override
 		public PrioritizedNode next() {
-			if (len != node.children.size())
-				throw new ConcurrentModificationException(
-						String.format("Number of children was %s, but is now %s.", len, node.children.size()));
-			if (pos >= len)
-				throw new NoSuchElementException(String.format(
-						"There are only %s children, cannot get children at index %s.", node.children.size(), pos));
+			assertSanity();
 			return node.children.get(pos++);
 		}
 
 		@Override
 		public void remove() {
-			assertSanity();
+			assertSanityPrev();
 			node.removeChild(pos-1);
 		}
 
 		@Override
 		public void removeImmediately() {
-			assertSanity();
-			node.removeChild(--pos);
+			assertSanityPrev();
+			node.removeChildImmediately(--pos);
 		}
 
 		@Override
 		public void setTraversalPriority(final int traversalPriority) {
-			assertSanity();
+			assertSanityPrev();
 			node.children.set(pos-1, new PrioritizedNode(node.children.get(pos-1).node, traversalPriority));
+			node.dirty = true;
+		}
+
+		private void assertSanityPrev() {
+			if (len != node.children.size())
+				throw new ConcurrentModificationException(
+						String.format("Number of children was %s, but is now %s.", len, node.children.size()));
+			if (pos == 0 || pos >= len + 1)
+				throw new IllegalStateException(
+						String.format("Cannot get child at %s, there are %s children.", pos-1, len));
 		}
 
 		private void assertSanity() {
 			if (len != node.children.size())
 				throw new ConcurrentModificationException(
 						String.format("Number of children was %s, but is now %s.", len, node.children.size()));
-			if (pos == 0 || pos >= len)
+			if (pos >= len)
 				throw new IllegalStateException(
 						String.format("Cannot get child at %s, there are %s children.", pos, len));
+		}
+
+		@Override
+		public void reset() {
+			pos = 0;
+			node = null;
+			len = 0;
 		}
 	}
 }

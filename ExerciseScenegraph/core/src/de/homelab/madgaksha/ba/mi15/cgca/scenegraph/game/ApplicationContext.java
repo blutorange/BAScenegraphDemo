@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
@@ -58,7 +59,7 @@ public class ApplicationContext extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		deltaTime = Gdx.graphics.getRawDeltaTime();
+		deltaTime = MathUtils.clamp(Gdx.graphics.getRawDeltaTime(), 0.001f, 0.2f);
 		time += deltaTime;
 
 		nodeActionQueue.perform();
