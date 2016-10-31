@@ -3,6 +3,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game;
 import com.badlogic.gdx.math.MathUtils;
 
 public enum PoemGenerator {
+	@SuppressWarnings("nls")
 	LOVE(
 			new String[] { "As the %1s are, the %1s %4 %7.", "All the %1s %3 %6, so %5 the %1s.",
 					"%9! We %4 the %1 and the %2, why not %5?", "What is the %6 %2 to %7 %3 the %1?",
@@ -33,6 +34,7 @@ public enum PoemGenerator {
 					"devotedly", "wondrously" },
 			new String[] { "on", "in", "about", "upon", "within", "between", "under", "above", "after", "before" },
 			new String[] { "hey", "ha", "alas", "oh", "lord", "damn", "god", "well", "please", "beware", "behold" }),
+	@SuppressWarnings("nls")
 	SUMMERTIME(
 			new String[] { "As the %1s are, the %1s %4 %7.", "All the %1s %3 %6, so %5 the %1s.",
 					"%9! We %4 the %1 and the %2, why not %5?", "What is the %6 %2 to %7 %3 the %1?",
@@ -71,6 +73,7 @@ public enum PoemGenerator {
 			new String[] { "on", "in", "about", "upon", "within", "between", "under", "above", "after", "before" },
 			new String[] { "hey", "ha", "alas", "o", "damn", "god", "well", "please", "beware", "behold", "hello", "no",
 					"yes", "maybe" }),
+	@SuppressWarnings("nls")
 	PTERODACTYLS(
 			new String[] { "As the %1s are, the %1s %4 %7.", "All the %1s %3 %6, so %5 the %1s.",
 					"%9! We %4 the %1 and the %2, why not %5?", "What is the %6 %2 to %7 %3 the %1?",
@@ -103,6 +106,7 @@ public enum PoemGenerator {
 			new String[] { "on", "in", "about", "upon", "within", "between", "under", "above", "after", "before" },
 			new String[] { "o", "alas", "whoosh", "aha", "ay", "kapow", "bang", "snap", "whish", "whoa", "dude", "hey",
 			"behold" }),
+	@SuppressWarnings("nls")
 	SEA(
 			new String[] { "The %5 %1 %6 %3s the %1.", "%5, %5 %1s %6 %3 a %5, %5 %1.", "%2 is a %5 %1.", "%9, %2!",
 					"1s %4!", "The %1 %4s like a %5 %1.", "%1s %4 like %5 %1s.", "Why does the %1 %4?",
@@ -121,6 +125,7 @@ public enum PoemGenerator {
 			new String[] {},
 			new String[] {},
 			new String[] { "o", "oh", "ooh", "ah", "lord", "god", "wow", "golly", "gosh" }),
+	@SuppressWarnings("nls")
 	CITY(
 			new String[] { "The %5 %1 %6 %3s the %1.", "%5, %5 %1s %6 %3 a %5, %5 %1.", "%2 is a %5 %1.",
 					"%9 %2, %1s %4!", "The %1 %4s like a %5 %1.", "%1s %4 like %5 %1s.", "Why does the %1 %4?",
@@ -141,6 +146,7 @@ public enum PoemGenerator {
 			new String[] { "o", "oh", "ooh", "ah", "lord", "god", "damn" }
 
 			),
+	@SuppressWarnings("nls")
 	SURREAL(
 			new String[] { "%1 %3 %4 %7 %1 %8 %9.", "%1 %3 %4 %7 %2 %8 %10.", "%2 %3 %5 %6 %1 %8 %9.",
 					"%2 %3 %5 %6 %2 %8 %10.", "%2 %8 churches surrounded by %2 %3 %5, %1 %4 pleading for %2 %10.",
@@ -185,9 +191,9 @@ public enum PoemGenerator {
 		String pattern = patterns[MathUtils.random(patterns.length - 1)];
 		for (int i = classWords.length; i-- > 0;) {
 			final String[] words = classWords[i];
-			final String rep = "%" + (i + 1);
+			final String rep = "%" + (i + 1); //$NON-NLS-1$
 			while (pattern.indexOf(rep) >= 0)
-				pattern = pattern.replaceFirst("%" + (i + 1), words[MathUtils.random(words.length - 1)]);
+				pattern = pattern.replaceFirst("%" + (i + 1), words[MathUtils.random(words.length - 1)]); //$NON-NLS-1$
 		}
 		if (pattern.length() < 2)
 			return pattern;

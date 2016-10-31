@@ -8,8 +8,8 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 public class DesktopLauncher {
 	public static void main (final String[] args) {
 		final LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		System.out.println("Fullsceen on: ./bascene.jar <width> <height> <fps> true");
-		System.out.println("Fullsceen off: ./bascene.jar <width> <height> <fps> false");
+		System.out.println("Fullsceen on: ./bascene.jar <width> <height> <fps> true"); //$NON-NLS-1$
+		System.out.println("Fullsceen off: ./bascene.jar <width> <height> <fps> false"); //$NON-NLS-1$
 		config.width = 720;
 		config.height = 480;
 		config.foregroundFPS = 60;
@@ -19,7 +19,7 @@ public class DesktopLauncher {
 				config.width = Integer.parseInt(args[0], 10);
 			}
 			catch (final NumberFormatException e) {
-				System.out.println("invalid width");
+				System.out.println("invalid width"); //$NON-NLS-1$
 				e.printStackTrace();
 			}
 		}
@@ -28,7 +28,7 @@ public class DesktopLauncher {
 				config.height = Integer.parseInt(args[1], 10);
 			}
 			catch (final NumberFormatException e) {
-				System.out.println("invalid height");
+				System.out.println("invalid height"); //$NON-NLS-1$
 				e.printStackTrace();
 			}
 		}
@@ -37,7 +37,7 @@ public class DesktopLauncher {
 				config.foregroundFPS = Integer.parseInt(args[2], 10);
 			}
 			catch (final NumberFormatException e) {
-				System.out.println("invalid fps");
+				System.out.println("invalid fps"); //$NON-NLS-1$
 				e.printStackTrace();
 			}
 		}
@@ -45,6 +45,6 @@ public class DesktopLauncher {
 			config.fullscreen = Boolean.parseBoolean(args[3]);
 		}
 		final LwjglApplication app = new LwjglApplication(new ApplicationContext(), config);
-		System.out.println(String.format("Started app %s.", app));
+		System.out.println(String.format("Started app %s.", app)); //$NON-NLS-1$
 	}
 }

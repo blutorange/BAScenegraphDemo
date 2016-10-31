@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.badlogic.gdx.utils.Pool.Poolable;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 
 public abstract class ANodeGroup extends ANode {
@@ -158,19 +159,19 @@ public abstract class ANodeGroup extends ANode {
 		private void assertSanityPrev() {
 			if (len != node.children.size())
 				throw new ConcurrentModificationException(
-						String.format("Number of children was %s, but is now %s.", len, node.children.size()));
+						String.format(CmnCnst.Error.ITERATOR_CONCURRENT_CHILD, len, node.children.size()));
 			if (pos == 0 || pos >= len + 1)
 				throw new IllegalStateException(
-						String.format("Cannot get child at %s, there are %s children.", pos-1, len));
+						String.format(CmnCnst.Error.ITERATOR_ILLEGAL_CHILD, pos-1, len));
 		}
 
 		private void assertSanity() {
 			if (len != node.children.size())
 				throw new ConcurrentModificationException(
-						String.format("Number of children was %s, but is now %s.", len, node.children.size()));
+						String.format(CmnCnst.Error.ITERATOR_CONCURRENT_CHILD, len, node.children.size()));
 			if (pos >= len)
 				throw new IllegalStateException(
-						String.format("Cannot get child at %s, there are %s children.", pos, len));
+						String.format(CmnCnst.Error.ITERATOR_ILLEGAL_CHILD, pos, len));
 		}
 
 		@Override

@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 
@@ -119,7 +120,7 @@ public class NodeFilter extends ANodeGroup {
 		}
 
 		private void assertSanity() {
-			if (current == null) throw new IllegalStateException("next not called or remove called more than once.");
+			if (current == null) throw new IllegalStateException(CmnCnst.Error.INCONSISTENT_ITERATOR_STATE);
 			current = null;
 		}
 	}

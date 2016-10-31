@@ -1,7 +1,10 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 
@@ -19,7 +22,7 @@ public class NodeText extends ANodeDrawable {
 	}
 
 	public final NodeText setString(final String string) {
-		this.string = string == null ? "" : string;
+		this.string = string == null ? StringUtils.EMPTY : string;
 		return this;
 	}
 
@@ -27,25 +30,25 @@ public class NodeText extends ANodeDrawable {
 	@Override
 	public float getLeftWidth() {
 		// TODO Auto-generated method stub
-		throw new RuntimeException("TODO - not yet implemented");
+		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 
 	@Override
 	public float getRightWidth() {
 		// TODO Auto-generated method stub
-		throw new RuntimeException("TODO - not yet implemented");
+		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 
 	@Override
 	public float getTopHeight() {
 		// TODO Auto-generated method stub
-		throw new RuntimeException("TODO - not yet implemented");
+		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 
 	@Override
 	public float getBottomHeight() {
 		// TODO Auto-generated method stub
-		throw new RuntimeException("TODO - not yet implemented");
+		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 
 	@Override
@@ -55,7 +58,7 @@ public class NodeText extends ANodeDrawable {
 
 	@Override
 	public String toString() {
-		return super.toString() + "(" + string + ")";
+		return super.toString() + "(" + string + ")";  //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	@Override

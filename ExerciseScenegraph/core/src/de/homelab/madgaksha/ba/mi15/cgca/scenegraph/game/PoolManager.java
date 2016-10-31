@@ -2,6 +2,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game;
 
 import com.badlogic.gdx.utils.Pool;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeGroup;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeGroup.IteratorNodeGroup;
 
@@ -19,7 +20,7 @@ public final class PoolManager {
 		/** @throws UnsupportedOperationException Use {@link #obtain(ANodeGroup)}. */
 		@Override
 		public IteratorNodeGroup obtain () {
-			throw new UnsupportedOperationException("You must provide a node.");
+			throw new UnsupportedOperationException(CmnCnst.Error.ITERATOR_NEEDS_NODE);
 		}
 		public IteratorNodeGroup obtain (final ANodeGroup node) {
 			final IteratorNodeGroup it = super.obtain();

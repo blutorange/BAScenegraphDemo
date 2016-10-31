@@ -4,10 +4,13 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 
@@ -190,16 +193,16 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 	}
 
 	public ANode printDebug() {
-		return printDebug("");
+		return printDebug(StringUtils.EMPTY);
 	}
 
 	private ANode printDebug(final String prefix) {
 		System.out.println(prefix + this);
-		for (final PrioritizedNode child : this) child.node.printDebug(prefix + " ");
+		for (final PrioritizedNode child : this) child.node.printDebug(prefix + StringUtils.SPACE);
 		return this;
 	}
 
-	private boolean rangeOverlap(final float range1From, final float range1To, final float range2From,
+	private static boolean rangeOverlap(final float range1From, final float range1To, final float range2From,
 			final float range2To) {
 		return range1From <= range2To && range2From <= range1To;
 	}
@@ -236,7 +239,7 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "@" + id;
+		return getClass().getSimpleName() + "@" + id; //$NON-NLS-1$
 	}
 
 	public final ANode translate(final float dx, final float dy) {
@@ -249,7 +252,7 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 
 		@Override
 		public void setTraversalPriority(final int traversalPriority) {
-			throw new IllegalStateException("Empty iterator does not have children.");
+			throw new IllegalStateException(CmnCnst.Error.EMPTY_ITERATOR);
 		}
 
 		@Override
@@ -259,12 +262,12 @@ public abstract class ANode implements Iterable<PrioritizedNode> {
 
 		@Override
 		public PrioritizedNode next() {
-			throw new NoSuchElementException("Empty iterator does not have children.");
+			throw new NoSuchElementException(CmnCnst.Error.EMPTY_ITERATOR);
 		}
 
 		@Override
 		public void removeImmediately() {
-			throw new NoSuchElementException("Empty iterator does not have children.");
+			throw new NoSuchElementException(CmnCnst.Error.EMPTY_ITERATOR);
 		}
 	}
 

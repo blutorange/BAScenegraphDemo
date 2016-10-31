@@ -1,5 +1,6 @@
 package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ResourceManager;
@@ -51,16 +52,16 @@ public class Butterfly extends NodeController {
 	@Override
 	protected void make() {
 		final ResourceManager rm = ac().getResourceManager();
-		body = new NodeSprite(rm.sprite("butterfly/bodyG.png"), ac());
-		head = new NodeSprite(rm.sprite("butterfly/headG.png"), ac());
-		mouth = new NodeSprite(rm.sprite("butterfly/mouthG.png"), ac());
-		antennae = new NodeSprite(rm.sprite("butterfly/antennaeG.png"), ac());
-		eyeLeft = new NodeSprite(rm.sprite("butterfly/eyeleftG.png"), ac());
-		eyeRight = new NodeSprite(rm.sprite("butterfly/eyerightG.png"), ac());
-		wingTopLeft = new NodeSprite(rm.sprite("butterfly/wingtopleftG.png"), ac());
-		wingTopRight = new NodeSprite(rm.sprite("butterfly/wingtoprightG.png"), ac());
-		wingBottomLeft = new NodeSprite(rm.sprite("butterfly/wingbottomleftG.png"), ac());
-		wingBottomRight = new NodeSprite(rm.sprite("butterfly/wingbottomrightG.png"), ac());
+		body = new NodeSprite(rm.sprite(CmnCnst.Files.BUTTERFLY_BODY), ac());
+		head = new NodeSprite(rm.sprite(CmnCnst.Files.BUTTERFLY_HEAD), ac());
+		mouth = new NodeSprite(rm.sprite(CmnCnst.Files.BUTTERFLY_MOUTH), ac());
+		antennae = new NodeSprite(rm.sprite(CmnCnst.Files.BUTTERFLY_ANTENNAE), ac());
+		eyeLeft = new NodeSprite(rm.sprite(CmnCnst.Files.BUTTERFLY_EYE_LEFT), ac());
+		eyeRight = new NodeSprite(rm.sprite(CmnCnst.Files.BUTTERFLY_RIGHT), ac());
+		wingTopLeft = new NodeSprite(rm.sprite(CmnCnst.Files.BUTTERFLY_WING_TOP_LEFT), ac());
+		wingTopRight = new NodeSprite(rm.sprite(CmnCnst.Files.BUTTERFLY_WING_TOP_RIGHT), ac());
+		wingBottomLeft = new NodeSprite(rm.sprite(CmnCnst.Files.BUTTERFLY_WING_BOTTOM_LEFT), ac());
+		wingBottomRight = new NodeSprite(rm.sprite(CmnCnst.Files.BUTTERFLY_BOTTOM_RIGHT), ac());
 
 		antennae.setOrigin(0.49f, 0.05f);
 		antennae.randomHue();

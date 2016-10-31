@@ -6,6 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ResourceManager;
@@ -35,7 +36,7 @@ public class Chain extends NodeController {
 	@Override
 	protected void make() {
 		final ResourceManager rm = ac().getResourceManager();
-		final Sprite sprite = rm.sprite("gnome/chainline.png");
+		final Sprite sprite = rm.sprite(CmnCnst.Files.CHAIN);
 		controller = new ChainController(this);
 		nodes = new ArrayList<>();
 		final ANodeGroup node = new NodeTransform(ac());

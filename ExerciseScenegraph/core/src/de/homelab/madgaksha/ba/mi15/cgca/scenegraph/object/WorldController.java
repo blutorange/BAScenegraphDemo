@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.MathUtils;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 
 public class WorldController implements Controller {
@@ -15,7 +16,7 @@ public class WorldController implements Controller {
 
 	public WorldController(final World world) {
 		if (world == null)
-			throw new IllegalArgumentException("World cannot be null.");
+			throw new IllegalArgumentException(CmnCnst.Error.NULL_WORLD);
 		this.world = world;
 		world.ac().setCameraNode(world.playerA.camera);
 	}

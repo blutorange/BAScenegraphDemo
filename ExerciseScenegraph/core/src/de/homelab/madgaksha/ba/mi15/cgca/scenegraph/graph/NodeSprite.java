@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 
@@ -23,7 +24,7 @@ public class NodeSprite extends ANodeDrawable {
 	 */
 	public void setSprite(final Sprite sprite) {
 		if (sprite == null)
-			throw new IllegalArgumentException("Sprite cannot be null.");
+			throw new IllegalArgumentException(CmnCnst.Error.NULL_SPRITE);
 		this.sprite = sprite;
 	}
 
@@ -68,7 +69,7 @@ public class NodeSprite extends ANodeDrawable {
 		final TextureData data = sprite.getTexture().getTextureData();
 		if (data instanceof FileTextureData) {
 			final FileTextureData fd = (FileTextureData)data;
-			return super.toString() + "@" + fd.getFileHandle().name();
+			return super.toString() + "@" + fd.getFileHandle().name(); //$NON-NLS-1$
 		}
 		return super.toString();
 	}

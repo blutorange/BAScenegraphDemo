@@ -3,11 +3,14 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.ApplicationContext;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeColor;
@@ -44,7 +47,7 @@ public class World extends NodeController {
 	NodeSprite background5;
 
 	private void makeBackground() {
-		sprite = ac().getResourceManager().sprite("background.jpg");
+		sprite = ac().getResourceManager().sprite(CmnCnst.Files.WORLD);
 
 		tBackground = new NodeTransform(0, 80f, ac());
 		mBackground = new NodeTransform(ac());
@@ -92,7 +95,7 @@ public class World extends NodeController {
 	}
 
 	private void makeMusic() {
-		final Music m = ac().getResourceManager().music("bgm3.mp3");
+		final Music m = ac().getResourceManager().music(CmnCnst.Files.BGM_3);
 		m.setLooping(true);
 		m.setVolume(0.20f);
 		m.play();
@@ -177,7 +180,7 @@ public class World extends NodeController {
 
 	void addRandomButterfly() {
 		final float x = MathUtils.random(butterflyLeft, butterflyRight);
-		System.out.println(butterflyLeft + " " + butterflyRight + " " + x);
+		System.out.println(butterflyLeft + StringUtils.SPACE + butterflyRight + StringUtils.SPACE + x);
 		final Butterfly bf = makeButterfly(x);
 		bf.translate(0f, 1600f);
 		bf.setSmoothToIsTransform();

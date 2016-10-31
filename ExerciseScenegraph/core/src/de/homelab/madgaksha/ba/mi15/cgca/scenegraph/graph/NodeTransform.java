@@ -83,7 +83,7 @@ public class NodeTransform extends ANodeGroup {
 
 	@Override
 	public String toString() {
-		return super.toString() + "@" + smoothingFactor;
+		return super.toString() + "@" + smoothingFactor; //$NON-NLS-1$
 	}
 
 	private static class NodeActionSetSmoothingFactorForThisAndChildren implements INodeAction {

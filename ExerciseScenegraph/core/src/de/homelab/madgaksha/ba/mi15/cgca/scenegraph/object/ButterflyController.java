@@ -3,6 +3,7 @@ package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.object;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 
 public class ButterflyController implements Controller{
@@ -15,7 +16,7 @@ public class ButterflyController implements Controller{
 	private boolean renderPriorityChanged = false;
 
 	public ButterflyController(final Butterfly butterfly) {
-		if (butterfly == null) throw new IllegalArgumentException("Butterfly cannot be null.");
+		if (butterfly == null) throw new IllegalArgumentException(CmnCnst.Error.NULL_BUTTERFLY);
 		this.butterfly = butterfly;
 	}
 	@Override
@@ -66,8 +67,8 @@ public class ButterflyController implements Controller{
 		catchTime2 = 0f;
 		catchY = catchDy = 0f;
 		animationMode = ButterflyAnimationPack.CATCH;
-		butterfly.ac().getResourceManager().sound("get" + MathUtils.random(1, 6) + ".wav").play();
-		flap = butterfly.ac().getResourceManager().sound("flap.wav");
+		butterfly.ac().getResourceManager().sound(String.format(CmnCnst.Files.SOUND_OBTAIN_BUTTERFLY, MathUtils.random(1, 6))).play();
+		flap = butterfly.ac().getResourceManager().sound(CmnCnst.Files.SOUND_FLAP);
 		flapId = flap.play();
 		flap.setLooping(flapId, true);
 	}

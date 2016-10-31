@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
+import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ActionQueue;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeCamera;
@@ -50,7 +51,7 @@ public class ApplicationContext extends ApplicationAdapter {
 		modelBatch = new ModelBatch();
 		nodeActionQueue = new ActionQueue();
 		resourceManager = new ResourceManager();
-		stars = resourceManager.particleEffect("stars.eff");
+		stars = resourceManager.particleEffect(CmnCnst.Files.STARS);
 		stars.setPosition(-800, 500);
 		setRootNode();
 		rootNode.printDebug();
@@ -106,7 +107,7 @@ public class ApplicationContext extends ApplicationAdapter {
 		resourceManager.dispose();
 	}
 
-	private ICommonNodeAction<RuntimeException> makeUpdateAction() {
+	private static ICommonNodeAction<RuntimeException> makeUpdateAction() {
 		return new ICommonNodeAction<RuntimeException>() {
 			@Override
 			public void visit(final ANode node) throws RuntimeException {
@@ -115,7 +116,7 @@ public class ApplicationContext extends ApplicationAdapter {
 		};
 	}
 
-	private ICommonNodeAction<RuntimeException> makeRenderAction() {
+	private static ICommonNodeAction<RuntimeException> makeRenderAction() {
 		return new ICommonNodeAction<RuntimeException>() {
 			@Override
 			public void visit(final ANode node) throws RuntimeException {
