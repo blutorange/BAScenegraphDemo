@@ -15,7 +15,6 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANode;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ActionQueue;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeCamera;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.NodeController;
@@ -108,21 +107,11 @@ public class ApplicationContext extends ApplicationAdapter {
 	}
 
 	private static ICommonNodeAction<RuntimeException> makeUpdateAction() {
-		return new ICommonNodeAction<RuntimeException>() {
-			@Override
-			public void visit(final ANode node) throws RuntimeException {
-				node.updateAction();
-			}
-		};
+		return (node) -> node.updateAction();
 	}
 
 	private static ICommonNodeAction<RuntimeException> makeRenderAction() {
-		return new ICommonNodeAction<RuntimeException>() {
-			@Override
-			public void visit(final ANode node) throws RuntimeException {
-				node.renderAction();
-			}
-		};
+		return (node) -> node.renderAction();
 	}
 
 	public float getTime() {

@@ -28,6 +28,7 @@ public class GnomeController implements Controller {
 	private float speedY;
 	private final float gravityY;
 	private float jumpY, beginY;
+	private float animationStartTime = 0f;
 	private MovementState state = MovementState.STANDING;
 	private Direction direction = Direction.RIGHT;
 
@@ -89,10 +90,11 @@ public class GnomeController implements Controller {
 			break;
 		}
 		if (animationMode != oldMode) {
+			animationStartTime = time;
 			oldMode.end(gnome, time, deltaTime);
 			animationMode.begin(gnome, time, deltaTime);
 		}
-		animationMode.animate(gnome, time, deltaTime);
+		animationMode.animate(gnome, time - animationStartTime, deltaTime);
 	}
 
 	private void control() {

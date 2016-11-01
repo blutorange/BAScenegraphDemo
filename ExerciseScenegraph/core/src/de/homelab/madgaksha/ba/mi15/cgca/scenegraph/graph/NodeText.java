@@ -29,25 +29,21 @@ public class NodeText extends ANodeDrawable {
 
 	@Override
 	public float getLeftWidth() {
-		// TODO Auto-generated method stub
 		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 
 	@Override
 	public float getRightWidth() {
-		// TODO Auto-generated method stub
 		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 
 	@Override
 	public float getTopHeight() {
-		// TODO Auto-generated method stub
 		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 
 	@Override
 	public float getBottomHeight() {
-		// TODO Auto-generated method stub
 		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 
