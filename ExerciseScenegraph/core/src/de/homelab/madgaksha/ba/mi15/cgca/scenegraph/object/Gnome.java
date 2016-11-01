@@ -203,30 +203,7 @@ public class Gnome extends NodeController {
 			ANodeGroup mRightLeg, ANodeGroup mLeftArm, ANodeGroup mRightArm,
 			ANodeGroup mScore, ANode torso, ANode head, ANode leftLeg,
 			ANode rightLeg, ANode leftArm, ANode rightArm, ANode score) {
-		root.addChild(mTorso);
-		root.addChild(tHead, 1);
-		root.addChild(tLeftLeg, 1);
-		root.addChild(tRightLeg, -1);
-		root.addChild(tRightArm, -1);
-		root.addChild(tLeftArm, 1);
-
-		tHead.addChild(mHead, 1);
-		mHead.addChild(tScore, 3);
-		mHead.addChild(tHeadBall, -5);
-
-		tScore.addChild(mScore);
-		tLeftLeg.addChild(mLeftLeg);
-		tRightLeg.addChild(mRightLeg);
-		tRightArm.addChild(mRightArm);
-		tLeftArm.addChild(mLeftArm);
-
-		mHead.addChild(head);
-		mLeftArm.addChild(leftArm);
-		mLeftLeg.addChild(leftLeg);
-		mRightArm.addChild(rightArm);
-		mRightLeg.addChild(rightLeg);
-		mScore.addChild(score);
-		mTorso.addChild(torso);		
+		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 
 	/** TODO TEIL 3 - Erzeugen der Translationsknoten für Körperteil
@@ -244,13 +221,14 @@ public class Gnome extends NodeController {
 	 *  die Methode {@link #ac()} nutzen.</p>
 	 */
 	private void makeBodyPartTranslate() {
-		tHead = new NodeTransform(15, 150, ac());
-		tScore = new NodeTransform(0, 200, ac());
-		tLeftArm = new NodeTransform(-28, 70, ac());
-		tRightArm = new NodeTransform(28, 70, ac());
-		tLeftLeg = new NodeTransform(-18, -70, ac());
-		tRightLeg = new NodeTransform(30, -70, ac());
-		tHeadBall = new NodeTransform(-117, 56, ac());		
+		tHead = null;
+		tScore = null;
+		tLeftArm = null;
+		tRightArm = null;
+		tLeftLeg = null;
+		tRightLeg = null;
+		tHeadBall = null;
+		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 
 	/** TODO TEIL 2 - Ursprung der Körperteilbilder
@@ -266,12 +244,7 @@ public class Gnome extends NodeController {
 	private static void setBodyPartOrigin(ANodeDrawable torso, ANodeDrawable head,
 			ANodeDrawable leftArm, ANodeDrawable rightArm,
 			ANodeDrawable leftLeg, ANodeDrawable rightLeg) {
-		torso.setOrigin(0.5f, 0.5f);
-		head.setOrigin(0.7f, 0.3f);
-		leftArm.setOrigin(0.875f,0.95f);
-		rightArm.setOrigin(0.125f,0.95f);
-		leftLeg.setOrigin(0.218f,1);
-		rightLeg.setOrigin(0.218f,1);
+		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 
 	/** TODO TEIL 1 - Erzeugen Knoten für Körperteilbilder
@@ -290,11 +263,12 @@ public class Gnome extends NodeController {
 	 * </p>
 	 */
 	private void makeBodyPartDrawable(ResourceManager rm) {
-		torso = new NodeSprite(rm.sprite(CmnCnst.Files.GNOME_TORSO), ac());
-		head = new NodeSprite(rm.sprite(CmnCnst.Files.GNOME_HEAD), ac());
-		leftArm = new NodeSprite(rm.sprite(CmnCnst.Files.GNOME_LEFTARM), ac());
-		rightArm = new NodeSprite(rm.sprite(CmnCnst.Files.GNOME_RIGHTARM), ac());
-		leftLeg = new NodeSprite(rm.sprite(CmnCnst.Files.GNOME_LEFTLEG), ac());
-		rightLeg = new NodeSprite(rm.sprite(CmnCnst.Files.GNOME_RIGHTLEG), ac());		
+		torso = null;
+		head = null;
+		leftArm = null;
+		rightArm = null;
+		leftLeg = null;
+		rightLeg = null;
+		throw new RuntimeException(CmnCnst.Error.TODO);
 	}
 }
