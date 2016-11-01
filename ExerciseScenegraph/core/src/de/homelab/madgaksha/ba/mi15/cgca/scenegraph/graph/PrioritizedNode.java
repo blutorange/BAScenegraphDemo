@@ -22,4 +22,17 @@ public class PrioritizedNode implements Comparable<PrioritizedNode> {
 	public int compareTo(final PrioritizedNode o) {
 		return priority-o.priority;
 	}
+	
+	@Override
+	public int hashCode() {
+		return priority;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (!(o instanceof PrioritizedNode))
+			return false;
+		final PrioritizedNode n = (PrioritizedNode)o;
+		return priority == n.priority;
+	}
 }
