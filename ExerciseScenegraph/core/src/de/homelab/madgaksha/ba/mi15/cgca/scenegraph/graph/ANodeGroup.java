@@ -25,22 +25,38 @@ public abstract class ANodeGroup extends ANode {
 		return new IteratorNodeGroup(this);
 	}
 
+	/**
+	 * Fügt Kinderknoten hinzu.
+	 * @param node Kinderknoten.
+	 * @return Diesen Knoten zum Verketten.
+	 */
 	public final ANode addChild(final ANode node) {
 		return addChild(node, 0);
 	}
 
+	/**
+	 * Fügt Kinderknoten hinzu.
+	 * @param node Kinderknoten.
+	 * @param traversalPriority Je höher, desto später wird der Knoten besucht. Sinnvoll z.B. für Layer etc.
+	 * @return Diesen Knoten zum Verketten.
+	 */
 	public final ANode addChild(final ANode node, final int traversalPriority) {
-		return addChild(node, traversalPriority, children.size());
-	}
-
-	public final ANode addChild(final ANode node, final int traversalPriority, final int position) {
 		ac().getNodeActionQueue()
-		.addAction(new NodeActionAddChild(this, node, traversalPriority, position));
+		.addAction(new NodeActionAddChild(this, node, traversalPriority));
 		return this;
 	}
 
-	public void addChildImmediately(final ANode node, final int traversalPriority, final int position) {
-		children.add(position, new PrioritizedNode(node, traversalPriority));
+	/**
+	 * Fügt den Kinderknoten sofort hinzu. Sollte im Normalfall nicht verwendet werden,
+	 * da es zu Problemen führt, wenn während der Iteration die Liste verändert wird.
+	 * @param node Knoten zum Hinzufügen.
+	 * @param traversalPriority Priorität, in der Kinder besucht werden. Desto höher, desto später.
+	 * @see #addChild(ANode, int, int)
+	 * @see #addChild(ANode, int)
+	 * @see #addChild(ANode)
+	 */
+	public void addChildImmediately(final ANode node, final int traversalPriority) {
+		children.add(new PrioritizedNode(node, traversalPriority));
 		node.parent = this;
 		node.onParentSet(this);
 		dirty = true;
@@ -78,19 +94,16 @@ public abstract class ANodeGroup extends ANode {
 		private final ANodeGroup parent;
 		private final ANode child;
 		private final int traversalPriority;
-		private final int position;
 
-		public NodeActionAddChild(final ANodeGroup parent, final ANode child, final int traversalPriority,
-				final int position) {
+		public NodeActionAddChild(final ANodeGroup parent, final ANode child, final int traversalPriority) {
 			this.parent = parent;
 			this.child = child;
 			this.traversalPriority = traversalPriority;
-			this.position = position;
 		}
 
 		@Override
 		public void perform() {
-			parent.addChildImmediately(child, traversalPriority, position);
+			parent.addChildImmediately(child, traversalPriority);
 		}
 	}
 

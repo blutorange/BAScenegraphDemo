@@ -15,6 +15,12 @@ public class NodeTransform extends ANodeGroup {
 	private final Matrix4 smoothTransform = new Matrix4();
 	private float smoothingFactor = 1f;
 
+	/**
+	 * Erzeugt einen neuen Transformationsknoten. Die Transformationsmatrix
+	 * wird initialisiert auf die gegebene Transformationsmatrix.
+	 * @param transform Initiale Transformation.
+	 * @param ac Der ApplicationContext.
+	 */
 	public NodeTransform(final Matrix4 transform, final ApplicationContext ac) {
 		super(Type.TRANSFORM, ac);
 		if (transform == null)
@@ -23,14 +29,32 @@ public class NodeTransform extends ANodeGroup {
 			this.transform.set(transform);
 	}
 
+	/**
+	 * Erzeugt einen neuen Transformationsknoten. Die Transformationsmatrix
+	 * wird initialisiert auf die Identitätsabbildung.
+	 * @param ac Der ApplicationContext.
+	 */
 	public NodeTransform(final ApplicationContext ac) {
 		this(new Matrix4().idt(), ac);
 	}
 
+	/**
+	 * Erzeugt einen neuen Transformationsknoten. Die Translationsmatrix wird initialisiert
+	 * mit einer Verschiebung (origin.x,origin.y).
+	 * @param origin Verschiebung.
+	 * @param ac Der ApplicationContext.
+	 */
 	public NodeTransform(final Vector2 origin, final ApplicationContext ac) {
 		this(origin.x, origin.y, ac);
 	}
 
+	/**
+	 * Erzeugt einen neuen Transformationsknoten. Die Translationsmatrix wird initialisiert
+	 * mit einer Verschiebung (x,y).
+	 * @param x Verschiebung x.
+	 * @param y Verschiebung y.
+	 * @param ac Der ApplicationContext.
+	 */
 	public NodeTransform(final float x, final float y, final ApplicationContext ac) {
 		this(new Matrix4().translate(x, y, 0), ac);
 	}

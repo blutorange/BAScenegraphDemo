@@ -11,6 +11,11 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.visitor.INodeVisitor;
 public class NodeSprite extends ANodeDrawable {
 	private Sprite sprite;
 
+	/**
+	 * Erzeugt einen neuen Knoten mit einem Bild.
+	 * @param sprite Das Bild, welches gezeichnet werden soll.
+	 * @param ac Der ApplicationContext.
+	 */
 	public NodeSprite(final Sprite sprite, final ApplicationContext ac) {
 		super(Type.SPRITE, ac);
 		setSprite(sprite);
