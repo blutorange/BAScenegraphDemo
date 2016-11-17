@@ -6,6 +6,7 @@ import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game.Controller;
 public interface IControlledNode {
 	public Controller getController();
 	default void controllerAction(final ApplicationContext context) {
-		if (getController() != null) getController().update(context.getTime(), context.getDeltaTime());
+		final Controller c = getController();
+		if (c != null) c.update(context.getTime(), context.getDeltaTime());
 	}
 }

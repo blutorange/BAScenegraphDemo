@@ -1,9 +1,8 @@
-package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.game;
+package de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph;
 
 import com.badlogic.gdx.utils.Pool;
 
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.CmnCnst;
-import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeGroup;
 import de.homelab.madgaksha.ba.mi15.cgca.scenegraph.graph.ANodeGroup.IteratorNodeGroup;
 
 public final class PoolManager {

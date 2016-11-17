@@ -102,7 +102,7 @@ public abstract class ANodeGroup extends ANode {
 		}
 	}
 
-	public static class IteratorNodeGroup implements INodeIterator, Poolable {
+	static class IteratorNodeGroup implements INodeIterator, Poolable {
 		private ANodeGroup node;
 		private int pos;
 		private int len;
